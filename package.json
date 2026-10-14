@@ -16,7 +16,8 @@
     "db:seed:local": "node scripts/seed.mjs --local",
     "db:seed:remote": "node scripts/seed.mjs --remote",
     "db:verify:local": "node scripts/verify-seed.mjs --local",
-    "db:verify:remote": "node scripts/verify-seed.mjs --remote"
+    "db:verify:remote": "node scripts/verify-seed.mjs --remote",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@sveltejs/adapter-cloudflare": "^8.0.0",
@@ -26,6 +27,7 @@
     "svelte-check": "^4.7.6",
     "typescript": "^6.0.3",
     "vite": "^8.3.4",
+    "vitest": "^5.0.4",
     "wrangler": "^4.151.0"
   },
   "imports": {

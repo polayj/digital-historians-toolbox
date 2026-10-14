@@ -31,3 +31,17 @@ Short record of what was decided, and why, so future editors don’t have to gue
 - **Sub-drawer blurbs** come word for word from the mockup and live in `seed/subdrawer_blurbs.json`.
 - **Guides** also start as `needs_review`; the plan is to file them together with their entry.
 - **The full seed is private.** `seed/` holds admin-only research notes and editor notes, so it lives in a separate private repository (`polayj/digital-historians-toolbox-seed`) cloned into `seed/`, and the public repository ignores that folder. It was removed from this repository's history before the first push. The public record of the catalogue is the nightly export of approved data in `data/`, which leaves out admin-only fields.
+
+## October 2026: catalogue page
+
+- **Counting rules live in one file**, `src/lib/ranking.ts`, with tests in `src/lib/ranking.test.ts` (`npm test`). “Past N years” means the current calendar year and the N−1 before it. Ties are broken by most used, then A–Z.
+- **The Trending strip** always uses the default 2-year window, as in the mockup; the window picker changes the order inside drawers.
+- **Card counts show every linked project** (“n research · n corpus · n tested”), including a tried-and-rejected one, which is listed with its tag. Only the sort scores leave it out.
+- **Project titles on cards** use the seed’s `short_title` (the descriptive version the mockup shows), falling back to `title`.
+- **Guides** appear on the card as their own “Guides” list, after the three project lists.
+- **Every card has a link**: `/?card=<id>` opens its first drawer and the card, and the address bar tracks the open drawer, guide card, card and sort, so any view can be shared.
+- **Cards awaiting review say so**: the footer reads “Not yet reviewed by the editors” instead of “Checked by the editors” until a card is filed.
+- **“Cite this card”** shows a citation with an `[Editors]` placeholder until the editor names are filled in.
+- **“I’m using this now”** explains that ORCID sign-in is coming (step 6) rather than pretending to record anything.
+- **Version history** has a simple public page (`/history/entry/<id>`) that lists what changed and which public fields; it never shows admin-only values or editors’ emails.
+- **Touch targets**: project links in card lists have 44px tap areas without changing the visible layout.
