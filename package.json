@@ -10,7 +10,13 @@
     "preview": "wrangler pages dev .svelte-kit/cloudflare --port 4173",
     "prepare": "svelte-kit sync || echo ''",
     "check": "wrangler types --check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "gen": "wrangler types"
+    "gen": "wrangler types",
+    "db:migrate:local": "wrangler d1 migrations apply toolbox --local",
+    "db:migrate:remote": "wrangler d1 migrations apply toolbox --remote",
+    "db:seed:local": "node scripts/seed.mjs --local",
+    "db:seed:remote": "node scripts/seed.mjs --remote",
+    "db:verify:local": "node scripts/verify-seed.mjs --local",
+    "db:verify:remote": "node scripts/verify-seed.mjs --remote"
   },
   "devDependencies": {
     "@sveltejs/adapter-cloudflare": "^8.0.0",

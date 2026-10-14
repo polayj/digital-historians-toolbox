@@ -19,3 +19,14 @@ Short record of what was decided, and why, so future editors don’t have to gue
   - search filters for cost, skill and “runs locally” are derived from the facts text at seed time and can be corrected in admin
   - “has published evaluation” is computed from linked evaluation projects
 - **Accessibility detail:** muted text `#8F8472` is under 4.5:1 contrast on the two lightest surfaces (`#231F1B`, `#2B2621`), so text on those surfaces uses `#998E7C` instead (classes `raised-2`, `raised-3`).
+- **Left for the editors (filters):** the derived search-filter values are a first guess. Transkribus is marked as *not* running locally, because its on-premises option is for institutions only.
+
+## October 2026: database and seed
+
+- **Schema** is in `migrations/0001_initial.sql`: drawers, sub-drawers, entries (with `facts`, `notes` and admin-only `research` kept as JSON in their original order), entry↔drawer and entry↔sub-drawer links, projects, project↔entry links, guides, users/sessions/check-ins (ORCID), submissions, edit history and a seed log.
+- **Project years** are stored as written (`'c. 2011'`, `'2000–'`, `'n.d.'`), plus a `year_sort` column holding the last 4-digit year (empty for undated projects), which trending uses.
+- **Check-ins** are limited to one per user, per entry, per *calendar* year.
+- **Re-running the seed is safe.** Every insert skips rows that already exist, and a `seed_log` row written at the very end makes later runs do nothing. If a run is interrupted, running it again fills in only what's missing. Tested: an editor's approval and edited `editor_notes` survived both a normal re-run and an interrupted-run recovery.
+- **Version history starts at seeding:** every seeded entry and project gets one “seeded” history line.
+- **Sub-drawer blurbs** come word for word from the mockup and live in `seed/subdrawer_blurbs.json`.
+- **Guides** also start as `needs_review`; the plan is to file them together with their entry.

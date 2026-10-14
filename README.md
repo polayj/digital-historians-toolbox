@@ -11,7 +11,9 @@ A curated, community-submitted catalogue of the tools and public datasets histor
 | `src/` | The website’s code (SvelteKit). `src/routes/` holds one folder per page; `src/lib/` holds shared pieces such as the header and footer. |
 | `src/app.css` | The “night archive” colours, fonts and shared styles. Every colour is defined once here. |
 | `src/lib/site.ts` | Site-wide settings and placeholders such as `[YOUR NAME / HGSA]`. |
-| `seed/` | The researched seed data (October 2026). Loaded once into the database, then reviewed in the admin queue. |
+| `seed/` | The researched seed data (October 2026). Loaded once into the database, then reviewed in the admin queue. `subdrawer_blurbs.json` holds the guide-card explanations copied from the mockup. |
+| `migrations/` | The database structure, as numbered SQL files applied in order. |
+| `scripts/` | The seed loader (`seed.mjs`) and its checker (`verify-seed.mjs`). |
 | `data/` | Empty for now. The nightly export will write the **approved** catalogue here as JSON and CSV. |
 | `design-reference/` | The approved mockups. Reference only; they don’t run on their own. |
 | `docs/DECISIONS.md` | Decisions made so far and why. |
@@ -28,6 +30,16 @@ npm run dev
 ```
 
 Then open http://localhost:5173. Cloudflare’s database and settings are simulated locally, so nothing here touches the live site.
+
+The first time, set up the local copy of the database and load the seed data:
+
+```bash
+npm run db:migrate:local
+npm run db:seed:local
+npm run db:verify:local
+```
+
+`db:migrate` creates the tables (from `migrations/`), `db:seed` loads `seed/` with every record set to `needs_review`, and `db:verify` checks the database against the seed files: counts, statuses, and that every editor note, flag and “UNVERIFIED” marker came through unchanged. The seed is safe to run again: once it has loaded completely it does nothing, and it never overwrites a record that already exists. The same commands ending in `:remote` work on the real Cloudflare database.
 
 Other commands:
 
