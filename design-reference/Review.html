@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toolbox — Review queue</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#121010}
+a{color:#D4A84B}a:hover{color:#E8C877}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #121010; color: #EDE4D3; font-family: 'IBM Plex Sans', sans-serif;">
+  <header style="border-bottom: 1px solid #3A332C;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+      <svg width="30" height="30" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="9" width="28" height="20" rx="2" fill="none" stroke="#EDE4D3" stroke-width="2"></rect><path d="M12 9V5h10v4" fill="none" stroke="#EDE4D3" stroke-width="2"></path><path d="M3 17h28" stroke="#D4A84B" stroke-width="2"></path></svg>
+      <span style="font-family: 'Libre Caslon Text', serif; font-weight: 700; font-size: 19px;">Toolbox · Editor’s desk</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 4px 8px; border-radius: 3px; border: 1px solid #7FB8A8; color: #7FB8A8;">Signed in as editor</span>
+      <a href="Main.dc.html" style="margin-left: auto; padding: 12px 0;">View public site</a>
+    </div>
+  </header>
+
+  <main style="max-width: 1280px; margin: 0 auto; padding: 36px 32px 56px; display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <h1 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 38px;">Review queue</h1>
+        <p style="margin: 0; font-size: 16px; color: #B8AC97;">[n] cards waiting to be filed</p>
+      </div>
+      <div role="tablist" style="display: flex; gap: 4px; background: #1C1916; border: 1px solid #3A332C; padding: 4px; border-radius: 6px;">
+        <button role="tab" aria-selected="true" style="min-height: 40px; padding: 0 16px; font: inherit; font-size: 14px; font-weight: 600; color: #1A1510; background: #D4A84B; border: none; border-radius: 4px;">Pending</button>
+        <button role="tab" aria-selected="false" style="min-height: 40px; padding: 0 16px; font: inherit; font-size: 14px; color: #D9CDB6; background: transparent; border: none; border-radius: 4px;">Filed</button>
+        <button role="tab" aria-selected="false" style="min-height: 40px; padding: 0 16px; font: inherit; font-size: 14px; color: #D9CDB6; background: transparent; border: none; border-radius: 4px;">Returned</button>
+      </div>
+    </div>
+
+    <sc-for list="{{queue}}" as="s" hint-placeholder-count="3">
+      <article style="background: #231F1B; border: 1px solid #3A332C; border-radius: 6px; padding: 22px; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+        <div style="flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;">
+            <span style="color: {{s.ink}};">{{s.kind}}</span>
+            <sc-if value="{{s.ai}}" hint-placeholder-val="{{false}}"><span style="padding: 2px 6px; border: 1px solid #D4A84B; border-radius: 3px; color: #D4A84B;">AI</span></sc-if>
+            <span style="font-family: 'IBM Plex Sans', sans-serif; letter-spacing: 0; text-transform: none; font-size: 14px; color: #8F8472;">from [submitter] · [date]</span>
+          </div>
+          <h2 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 24px;">{{s.name}}</h2>
+          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #B8AC97;">{{s.desc}}</p>
+          <p style="margin: 0; font-size: 14px; color: {{s.checkInk}};">{{s.check}}</p>
+        </div>
+        <div style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 8px;">
+          <button style="min-height: 44px; font: inherit; font-size: 15px; font-weight: 600; color: #1A1510; background: #D4A84B; border: none; border-radius: 4px;">File it</button>
+          <button style="min-height: 44px; font: inherit; font-size: 15px; color: #EDE4D3; background: transparent; border: 1px solid #5A5047; border-radius: 4px;">Edit, then file</button>
+          <button style="min-height: 44px; font: inherit; font-size: 15px; color: #E3A08F; background: transparent; border: none; text-decoration: underline;">Return with a note</button>
+        </div>
+      </article>
+    </sc-for>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      queue: [
+        { kind: 'Tool', ink: '#D4A84B', ai: true, name: '[Submitted AI tool]', desc: '[Submitter’s description]', check: 'Missing: where sources go, published evaluation', checkInk: '#E3A08F' },
+        { kind: 'Project', ink: '#D98F7E', ai: false, name: '[Submitted project]', desc: '[Submitter’s description]', check: 'Links to 2 existing cards · DOI found', checkInk: '#7FB8A8' },
+        { kind: 'Dataset', ink: '#7FB8A8', ai: false, name: '[Submitted dataset]', desc: '[Submitter’s description]', check: 'Possible duplicate of an existing card', checkInk: '#E3A08F' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

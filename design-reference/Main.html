@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toolbox — Catalogue</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#121010}
+a{color:#D4A84B}a:hover{color:#E8C877}
+button{cursor:pointer}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #121010; color: #EDE4D3; font-family: 'IBM Plex Sans', sans-serif;">
+  <header style="border-bottom: 1px solid #3A332C;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; color: #EDE4D3; text-decoration: none;">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="9" width="28" height="20" rx="2" fill="none" stroke="#EDE4D3" stroke-width="2"></rect><path d="M12 9V5h10v4" fill="none" stroke="#EDE4D3" stroke-width="2"></path><path d="M3 17h28" stroke="{{accent}}" stroke-width="2"></path></svg>
+        <span style="font-family: 'Libre Caslon Text', serif; font-weight: 700; font-size: 20px;">The Digital Historian’s Toolbox</span>
+      </a>
+      <nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; align-items: center;">
+        <a href="Main.dc.html" aria-current="page" style="color: #EDE4D3; text-decoration: none; padding: 12px 14px; font-size: 15px; font-weight: 600; border-bottom: 2px solid {{accent}};">Catalogue</a>
+        <a href="Search.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Search</a>
+        <a href="Network.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Network</a>
+        <a href="About.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">About</a>
+        <a href="Submit.dc.html" style="color: #1A1510; background: {{accent}}; text-decoration: none; padding: 12px 18px; font-size: 15px; font-weight: 600; border-radius: 4px; margin-left: 8px;">Submit an entry</a>
+      </nav>
+    </div>
+  </header>
+
+  <section style="max-width: 1280px; margin: 0 auto; padding: 56px 32px 28px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end;">
+    <div style="flex: 999 1 560px; display: flex; flex-direction: column; gap: 16px;">
+      <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: {{accent}};">Preview · {{toolCount}} tools · {{dataCount}} datasets · {{projCount}} projects · seeded October 2026</p>
+      <h1 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 52px; line-height: 1.1; max-width: 860px;">The tools and datasets historians <em style="color: {{accent}};">actually</em> used, and where.</h1>
+      <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #B8AC97; max-width: 680px;">Pull out a drawer to see what’s filed inside. Every card separates research that used a tool from the benchmarks that tested it.</p>
+    </div>
+    <form role="search" style="flex: 1 1 320px; display: flex; gap: 8px;">
+      <label for="q" style="position: absolute; left: -9999px;">Search the catalogue</label>
+      <input id="q" type="search" placeholder="Search every drawer" style="flex: 1 1 auto; min-width: 0; min-height: 48px; padding: 0 16px; font: inherit; font-size: 16px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+      <a href="Search.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 16px; border: 1px solid #5A5047; border-radius: 4px; text-decoration: none; color: #EDE4D3; font-size: 15px;">Go</a>
+    </form>
+  </section>
+
+  <section aria-label="Trending" style="max-width: 1280px; margin: 0 auto; padding: 0 32px 28px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 14px 18px; background: #1C1916; border: 1px solid #3A332C; border-radius: 6px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: {{accent}};">Trending · past 2 years</span>
+      <sc-for list="{{trending}}" as="t" hint-placeholder-count="4">
+        <span style="font-size: 15px; color: #D9CDB6;"><span style="font-family: 'IBM Plex Mono', monospace; color: #8F8472; margin-right: 6px;">{{t.rank}}</span>{{t.name}} <span style="font-size: 13px; color: #8F8472;">({{t.n}})</span></span>
+      </sc-for>
+      <span style="font-size: 13px; color: #8F8472; margin-left: auto;">Research + corpus-building uses. Benchmarks don’t count.</span>
+    </div>
+  </section>
+
+  <main style="max-width: 1280px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-direction: column; gap: 20px;">
+    <div style="border-top: 3px double #3A332C; padding-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: baseline;">
+      <h2 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 30px;">The drawers</h2>
+      <span style="font-size: 14px; color: #8F8472;">A tool can be filed in more than one drawer</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px;">
+      <sc-for list="{{drawers}}" as="d" hint-placeholder-count="8">
+        <div style="grid-column: {{d.span}};">
+          <sc-if value="{{d.closed}}" hint-placeholder-val="{{true}}">
+            <button type="button" onClick="{{d.toggle}}" aria-expanded="false" style="width: 100%; height: 100%; font: inherit; color: #EDE4D3; text-align: center; background: {{d.bg}}; border: 1px solid #3A332C; border-bottom: 4px solid #2E2823; border-radius: 6px; padding: 24px 20px 18px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+              <span style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 18px; min-width: 70%; border: 1.5px solid {{d.plate}}; border-radius: 3px; background: #1A1714;">
+                <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #8F8472;">DRAWER {{d.no}}</span>
+                <span style="font-family: 'Libre Caslon Text', serif; font-size: 22px; line-height: 1.2; color: {{d.labelInk}};">{{d.label}}</span>
+              </span>
+              <span style="font-size: 14px; line-height: 1.5; color: #B8AC97;">{{d.peek}}</span>
+              <span aria-hidden="true" style="width: 54px; height: 14px; border: 1.5px solid #5A5047; border-top: none; border-radius: 0 0 27px 27px;"></span>
+              <span style="font-size: 13px; color: #8F8472;">{{d.countLabel}} · <span style="color: {{accent}};">{{d.cta}}</span></span>
+            </button>
+          </sc-if>
+
+          <sc-if value="{{d.open}}" hint-placeholder-val="{{false}}">
+            <section style="background: #1A1714; border: 1px solid {{accent}}; border-radius: 6px; overflow: hidden;">
+              <div style="background: #231F1B; border-bottom: 1px solid #3A332C; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+                <span style="display: flex; flex-direction: column; gap: 2px; padding: 10px 16px; border: 1.5px solid {{accent}}; border-radius: 3px;">
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #8F8472;">DRAWER {{d.no}}</span>
+                  <span style="font-family: 'Libre Caslon Text', serif; font-size: 26px;">{{d.label}}</span>
+                </span>
+                <p style="margin: 0; flex: 1 1 260px; font-size: 15px; line-height: 1.5; color: #B8AC97;">{{d.blurb}}</p>
+                <button type="button" onClick="{{d.toggle}}" aria-expanded="true" style="min-height: 44px; padding: 0 16px; font: inherit; font-size: 14px; color: #EDE4D3; background: transparent; border: 1px solid #5A5047; border-radius: 4px;">Close drawer ↑</button>
+              </div>
+
+              <sc-if value="{{d.hasSubs}}" hint-placeholder-val="{{true}}">
+                <div style="padding: 18px 24px 0; display: flex; flex-direction: column;">
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #8F8472; margin-bottom: 10px;">Guide cards</span>
+                  <div role="group" aria-label="Sub-drawers" style="display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-end; border-bottom: 1px solid {{accent}};">
+                    <sc-for list="{{d.tabs}}" as="s" hint-placeholder-count="5">
+                      <button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="min-height: 44px; padding: 0 16px; font: inherit; font-size: 14px; font-weight: {{s.weight}}; color: {{s.ink}}; background: {{s.bg}}; border: 1px solid {{s.border}}; border-bottom: none; border-radius: 8px 8px 0 0;">{{s.label}} <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8F8472;">{{s.n}}</span></button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{d.hasSubNote}}" hint-placeholder-val="{{false}}">
+                <p style="margin: 0; padding: 16px 24px 0; font-size: 15px; line-height: 1.55; color: #D9CDB6; max-width: 900px;">{{d.subNote}}</p>
+              </sc-if>
+
+              <div style="padding: 18px 24px; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; border-bottom: 1px solid #3A332C;">
+                <div role="group" aria-label="Sort cards" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: #121010; border: 1px solid #3A332C; border-radius: 6px;">
+                  <sc-for list="{{sorts}}" as="s" hint-placeholder-count="4">
+                    <button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="min-height: 40px; padding: 0 14px; font: inherit; font-size: 14px; border: none; border-radius: 4px; color: {{s.ink}}; background: {{s.bg}};">{{s.label}}</button>
+                  </sc-for>
+                </div>
+                <sc-if value="{{showWindow}}" hint-placeholder-val="{{true}}">
+                  <label style="display: flex; gap: 8px; align-items: center; font-size: 14px; color: #B8AC97;">over the
+                    <select value="{{win}}" onChange="{{pickWin}}" style="min-height: 40px; padding: 0 10px; font: inherit; font-size: 14px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+                      <option value="1">past year</option>
+                      <option value="2">past 2 years</option>
+                      <option value="5">past 5 years</option>
+                      <option value="20">past 20 years</option>
+                    </select>
+                  </label>
+                </sc-if>
+                <span style="flex: 1 1 280px; font-size: 14px; line-height: 1.45; color: #8F8472;">{{sortNote}}</span>
+              </div>
+
+              <sc-if value="{{d.empty}}" hint-placeholder-val="{{false}}">
+                <p style="margin: 0; padding: 24px; font-size: 15px; color: #B8AC97;">Nothing filed in this drawer yet. <a href="Submit.dc.html">Suggest the first card →</a></p>
+              </sc-if>
+
+              <div style="padding: 20px 24px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px;">
+                <sc-for list="{{d.cards}}" as="e" hint-placeholder-count="4">
+                  <div style="grid-column: {{e.span}};">
+                    <sc-if value="{{e.closed}}" hint-placeholder-val="{{true}}">
+                      <button type="button" onClick="{{e.toggle}}" aria-expanded="false" style="width: 100%; height: 100%; text-align: left; font: inherit; color: #EDE4D3; background: #2B2621; border: 1px solid #3A332C; border-radius: 4px; padding: 16px 18px 12px; display: flex; flex-direction: column; gap: 8px;">
+                        <span style="display: flex; justify-content: space-between; align-items: center; width: 100%; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;">
+                          <span style="color: {{e.typeInk}};">{{e.type}} · No. {{e.no}}</span>
+                          <sc-if value="{{e.ai}}" hint-placeholder-val="{{false}}"><span style="padding: 2px 6px; border: 1px solid #D4A84B; border-radius: 3px; color: #D4A84B;">AI</span></sc-if>
+                        </span>
+                        <span style="display: block; font-family: 'Libre Caslon Text', serif; font-size: 21px; line-height: 1.2;">{{e.name}}</span>
+                        <span style="display: block; font-size: 14px; line-height: 1.5; color: #B8AC97; flex-grow: 1;">{{e.desc}}</span>
+                        <span style="display: flex; flex-wrap: wrap; gap: 4px 12px; width: 100%; font-size: 13px; border-top: 1px dashed #3A332C; padding-top: 8px;">
+                          <span style="color: #D98F7E;">{{e.r}} research</span>
+                          <span style="color: #9DB4D9;">{{e.c}} corpus</span>
+                          <span style="color: #8F8472;">{{e.t}} tested</span>
+                          <span style="margin-left: auto; color: {{e.updInk}};">{{e.updShort}}</span>
+                        </span>
+                      </button>
+                    </sc-if>
+                    <sc-if value="{{e.open}}" hint-placeholder-val="{{false}}">
+                      <article style="background: #2B2621; border: 1px solid #5A5047; border-radius: 4px; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
+                          <div style="flex: 999 1 380px; display: flex; flex-direction: column; gap: 8px;">
+                            <span style="display: flex; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;">
+                              <span style="color: {{e.typeInk}};">{{e.type}} · No. {{e.no}}</span>
+                              <sc-if value="{{e.ai}}" hint-placeholder-val="{{false}}"><span style="padding: 2px 6px; border: 1px solid #D4A84B; border-radius: 3px; color: #D4A84B;">AI</span></sc-if>
+                            </span>
+                            <h3 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 36px;">{{e.name}}</h3>
+                            <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #D9CDB6; max-width: 820px;">{{e.desc}}</p>
+                          </div>
+                          <button type="button" onClick="{{e.toggle}}" aria-expanded="true" style="min-height: 44px; padding: 0 14px; font: inherit; font-size: 14px; color: #EDE4D3; background: transparent; border: 1px solid #5A5047; border-radius: 4px;">Close card</button>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; border-top: 1px solid #3A332C; padding-top: 20px;">
+                          <section style="display: flex; flex-direction: column; gap: 10px;">
+                            <h4 style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #8F8472;">At a glance</h4>
+                            <dl style="margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; font-size: 14px; line-height: 1.45;">
+                              <sc-for list="{{e.facts}}" as="f" hint-placeholder-count="6">
+                                <dt style="color: #8F8472;">{{f.k}}</dt><dd style="margin: 0;">{{f.v}}</dd>
+                              </sc-for>
+                            </dl>
+                          </section>
+                          <section style="display: flex; flex-direction: column; gap: 12px;">
+                            <h4 style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #8F8472;">Historian’s notes</h4>
+                            <sc-for list="{{e.notes}}" as="n" hint-placeholder-count="3">
+                              <div style="display: flex; flex-direction: column; gap: 3px;">
+                                <strong style="font-size: 14px; font-weight: 600; color: #EDE4D3;">{{n.q}}</strong>
+                                <span style="font-size: 14px; line-height: 1.5; color: #D9CDB6;">{{n.a}}</span>
+                              </div>
+                            </sc-for>
+                          </section>
+                          <section style="display: flex; flex-direction: column; gap: 14px;">
+                            <sc-for list="{{e.uses}}" as="g" hint-placeholder-count="3">
+                              <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <h4 style="margin: 0; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: {{g.ink}};"><span>{{g.label}}</span><span>{{g.n}}</span></h4>
+                                <sc-for list="{{g.items}}" as="p" hint-placeholder-count="1">
+                                  <span style="border-left: 2px solid {{g.ink}}; padding-left: 10px; font-size: 14px; line-height: 1.4;"><a href="{{p.u}}" target="_blank" rel="noopener">{{p.t}}</a> <span style="color: #8F8472;">· {{p.who}}, {{p.y}}{{p.tag}}</span></span>
+                                </sc-for>
+                                <sc-if value="{{g.none}}" hint-placeholder-val="{{false}}">
+                                  <span style="font-size: 13px; color: #8F8472; font-style: italic;">{{g.empty}}</span>
+                                </sc-if>
+                              </div>
+                            </sc-for>
+                          </section>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border-top: 1px solid #3A332C; padding-top: 18px;">
+                          <a href="{{e.web}}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; background: {{accent}}; color: #1A1510; text-decoration: none; font-weight: 600; border-radius: 4px;">Visit website ↗</a>
+                          <button type="button" style="min-height: 44px; padding: 0 18px; font: inherit; font-size: 15px; color: #EDE4D3; background: transparent; border: 1px solid #5A5047; border-radius: 4px;">I’m using this now</button>
+                          <a href="Submit.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 1px solid #5A5047; color: #EDE4D3; text-decoration: none; border-radius: 4px;">Add a project that used it</a>
+                          <a href="Network.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;">See it on the network →</a>
+                          <span style="margin-left: auto; display: inline-flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: #8F8472;">
+                            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 4px 8px; border: 1px solid {{e.updInk}}; border-radius: 3px; color: {{e.updInk}};">{{e.updLabel}}</span>
+                            <span>Checked by the editors · <a href="#">Version history</a></span>
+                          </span>
+                        </div>
+                      </article>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+
+  <footer style="border-top: 1px solid #3A332C;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 28px 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-size: 14px; color: #8F8472;">
+      <span>Community submitted, editor reviewed. Preview data: verify before citing.</span>
+      <span>Run by [YOUR NAME / HGSA] · <a href="#">Data on GitHub</a> · <a href="#">Archived on Zenodo</a></span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D4A84B","options":["#D4A84B","#C97B5B","#7FB8A8","#B9A3D9"]},"$preview":{"width":1440,"height":2100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { drawer: 'ocr', sub: 'vlm', card: 'chandra', sort: 'trending', win: 2 };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#D4A84B';
+    const NOW = 2026;
+    const TOOLS = [
+      { id: 'tesseract', no: '012', name: 'Tesseract', ai: false, rel: 2005, drawers: ['ocr'], subs: ['classic'], web: 'https://github.com/tesseract-ocr/tesseract',
+        desc: 'Free, long-standing program that turns images of printed pages into searchable text. Best on clean, high-resolution scans; old or damaged print usually needs clean-up first.',
+        maker: 'HP Labs, then Google; now community-maintained', relLabel: 'Open-sourced 2005', lic: 'Open source (Apache-2.0)', cost: 'Free', runs: 'Your own machine (Linux, Windows, macOS)', skill: 'Some code',
+        src: 'Fully local. Nothing leaves your computer.',
+        tested: 'Error rates of 10–17% on historical US newspapers (Dell et al. 2023); about 83% word accuracy on Finnish newspapers, 1869–1918.',
+        issues: 'Struggles with skew, smudges and uneven backgrounds; reads column borders as characters. Whole multi-column newspaper pages do worse than pages split into regions.' },
+      { id: 'abbyy', no: '011', name: 'ABBYY FineReader PDF', ai: false, rel: 1993, drawers: ['ocr'], subs: ['classic'], web: 'https://pdf.abbyy.com/',
+        desc: 'Commercial desktop OCR that libraries have used for decades to digitise newspapers and books. Has a dedicated mode for Gothic and Fraktur type.',
+        maker: 'ABBYY', relLabel: '1993', lic: 'Proprietary', cost: 'From $99/yr (Windows) or $69/yr (Mac); 7-day trial', runs: 'Desktop app (Windows, macOS)', skill: 'No code',
+        src: 'Processed offline on your computer, per ABBYY. Cloud features not covered.',
+        tested: 'Compared against Tesseract and others on historical Ontario documents (Code4Lib 2021) and Swedish newspapers, 1818–2018.',
+        issues: 'Cannot read handwriting. Blackletter, skew and narrow columns lower accuracy; print before about 1800 needed manual correction in one project.' },
+      { id: 'transkribus', no: '014', name: 'Transkribus', ai: true, rel: 2015, drawers: ['ai', 'ocr'], subs: ['htr'], web: 'https://www.transkribus.org/',
+        desc: 'Upload scans of handwritten or printed documents and get transcriptions back, using public models or one you train on your own transcribed pages.',
+        maker: 'READ-COOP (European cooperative)', relLabel: '2015', lic: 'Proprietary', cost: 'Free tier (50 credits/month); Scholar €99/yr; about 1 credit per page', runs: 'Browser (EU cloud); API; on-premises for institutions', skill: 'No code',
+        src: 'Stored on READ-COOP servers in Austria. You keep ownership, but the terms let READ-COOP use your content to improve its services.',
+        tested: 'A 2022 review covers 381 publications using it. Error rates of about 4% on retrained Ottoman Turkish periodicals.',
+        issues: 'Accuracy drops on names, abbreviations, Latin and marginalia. A 12.7% error model was judged unusable without correction. Models trained on one source transfer unevenly.' },
+      { id: 'escriptorium', no: '015', name: 'eScriptorium', ai: true, rel: 2019, drawers: ['ai', 'ocr'], subs: ['htr'], web: 'https://escriptorium.eu',
+        desc: 'Open-source web platform for transcribing historical manuscripts and print: segment pages, run or train models, correct and export. Strong on Hebrew, Arabic and other non-Latin scripts.',
+        maker: 'EPHE–PSL, Paris', relLabel: '2018–19', lic: 'Open source (MIT)', cost: 'Free; self-host or use an institution’s server', runs: 'Web app on a self-hosted or institutional server', skill: 'No code to use; IT help to install',
+        src: 'No central cloud. Your sources stay on whichever server hosts it.',
+        tested: 'Error rates of 2.8–8.9% on medieval Hebrew manuscripts (Tikkoun Sofrim, DH2019).',
+        issues: 'Needs a good amount of consistent training data. Reading order fails on complex layouts. Vertical scripts are not supported.' },
+      { id: 'kraken', no: '013', name: 'Kraken', ai: true, rel: 2015, drawers: ['ai', 'ocr'], subs: ['htr'], web: 'https://kraken.re',
+        desc: 'The open-source recognition engine behind eScriptorium, run from the command line. Built for historical and non-Latin material, including right-to-left scripts.',
+        maker: 'Benjamin Kiessling (EPHE–PSL, Inria)', relLabel: '2015', lic: 'Open source (Apache-2.0)', cost: 'Free', runs: 'Your own machine (Linux, macOS)', skill: 'Programming',
+        src: 'Fully local.',
+        tested: '96.9% character accuracy on Hebrew and 98.2% on medieval Latin manuscripts (DH2019); 97.6–99.2% on classical Arabic print.',
+        issues: 'Command line only; models must be downloaded or trained. Low-resolution images and curved lines raise error rates. Windows not supported.' },
+      { id: 'chandra', no: '016', name: 'Chandra', ai: true, rel: 2025, drawers: ['ai', 'ocr'], subs: ['vlm'], web: 'https://github.com/datalab-to/chandra',
+        desc: 'Vision-language model that turns scans and PDFs into structured text, keeping tables and layout. Chandra 2 covers about 90 languages.',
+        maker: 'Datalab', relLabel: 'Oct 2025 (v2: Mar 2026)', lic: 'Code Apache-2.0; weights free for research and small organisations', cost: 'Free to self-host; API about $4–10 per 1,000 pages', runs: 'Your own GPU, hosted API or web playground', skill: 'Some code',
+        src: 'Datalab says its hosted service keeps no data by default. Self-host to keep sources on your machine.',
+        tested: '0.58% error on clean 19th-century print and 2.58% on early-modern print (Clifford et al. 2026); 13% mean error on degraded Uruguayan microfilm.',
+        issues: 'On damaged pages it adds text that isn’t there, swaps one name for another and standardises spelling. Occasional severe failures hide behind good median scores.' },
+      { id: 'olmocr', no: '017', name: 'olmOCR', ai: true, rel: 2025, drawers: ['ai', 'ocr'], subs: ['vlm'], web: 'https://github.com/allenai/olmocr',
+        desc: 'Fully open toolkit from the Allen Institute for AI that turns PDFs and scans into clean, reading-order text, built to process millions of pages cheaply.',
+        maker: 'Allen Institute for AI', relLabel: 'Feb 2025 (v2: Oct 2025)', lic: 'Open source (Apache-2.0)', cost: 'Free; third-party hosting available', runs: 'Your own GPU (12 GB+); hosted APIs; free web demo', skill: 'Some code',
+        src: 'Ai2’s terms give it broad rights over content submitted to its services. Run it locally for private sources.',
+        tested: '1.93% error on clean 19th-century print, 4.27% on early-modern print (Clifford et al. 2026).',
+        issues: 'Silently modernises old spelling, recovers only about half the text on multi-column pages, and invents names (“Gotland” became “Goliath”). English-focused.' },
+      { id: 'deepseek', no: '018', name: 'DeepSeek-OCR', ai: true, rel: 2025, drawers: ['ai', 'ocr'], subs: ['vlm'], web: 'https://github.com/deepseek-ai/DeepSeek-OCR',
+        desc: 'Small open model that compresses page images for fast bulk conversion. Built mainly as research into compression rather than careful transcription.',
+        maker: 'DeepSeek AI', relLabel: 'Oct 2025 (v2: Jan 2026)', lic: 'Open weights (MIT; v2 Apache-2.0)', cost: 'Free; third-party hosting', runs: 'Your own GPU or third-party APIs', skill: 'Programming',
+        src: 'No official hosted service; self-hosting keeps sources local.',
+        tested: 'Median error 6.7% on Ancient Greek editions and 20.8% on Arabic (Inria 2026).',
+        issues: 'Guesses from language rather than reading the page: it “corrects” unusual words to ones that aren’t there and loops on long outputs. Among the weakest on degraded microfilm.' },
+      { id: 'paddle', no: '019', name: 'PaddleOCR-VL', ai: true, rel: 2025, drawers: ['ai', 'ocr'], subs: ['vlm'], web: 'https://github.com/PaddlePaddle/PaddleOCR',
+        desc: 'Small, free open-weight model from Baidu that reads scans into structured text, tables and formulas in 109 languages. Runs on your own computer.',
+        maker: 'Baidu (PaddlePaddle)', relLabel: 'Oct 2025 (v1.6: May 2026)', lic: 'Open source (Apache-2.0)', cost: 'Free to run locally', runs: 'Your own machine; offline Docker image', skill: 'Programming',
+        src: 'Local use keeps documents on your hardware. Hosted service terms unverified.',
+        tested: 'Scores 80 overall on olmOCR-Bench but only 37.8 on its old-scans set. Its own benchmarks don’t test historical documents.',
+        issues: 'A researcher digitising 20 million census pages rejected it after fine-tuning produced stray Chinese characters. Skipping the layout step can add invented text.' },
+      { id: 'mistral', no: '020', name: 'Mistral OCR', ai: true, rel: 2025, drawers: ['ai', 'ocr'], subs: ['vlm'], web: 'https://mistral.ai/news/ocr-4/',
+        desc: 'Commercial cloud OCR that converts scans into structured text in about 170 languages, cheaply per page for bulk jobs.',
+        maker: 'Mistral AI (France)', relLabel: 'Mar 2025 (now 4.1)', lic: 'Proprietary', cost: 'About $4 per 1,000 pages ($2 by batch)', runs: 'Hosted API and web playground', skill: 'Some code',
+        src: 'Sent to Mistral; kept 30 days for abuse checks unless zero-retention is granted. Terms say no training on customer data, with exceptions.',
+        tested: '1.4–3.4% error on the 1743 Dictionnaire de Trévoux (LIRIS, Lyon).',
+        issues: 'Kurrent and other German scripts remain hard; poor on Greek and Hebrew. The “latest” model changes underneath you, so pin a version for a consistent corpus.' },
+      { id: 'whisper', no: '027', name: 'Whisper', ai: true, rel: 2022, drawers: ['ai', 'audio'], subs: ['speech'], web: 'https://github.com/openai/whisper',
+        desc: 'Speech-recognition model that transcribes oral history interviews and archival audio, with timestamps, in many languages.',
+        maker: 'OpenAI', relLabel: 'Sep 2022', lic: 'Open source (MIT)', cost: 'Free to run yourself; OpenAI API is paid', runs: 'Your own machine (Python); OpenAI API', skill: 'Some code',
+        src: 'Run locally, audio never leaves your machine. The API sends it to OpenAI, where it may be kept up to 30 days.',
+        tested: '15.3% average word error across 1,847 Holocaust testimonies in seven languages (Fortunoff Archive, 2026).',
+        issues: 'Can invent whole sentences nobody said, especially around pauses. Mishears dialect and proper names. Always check against the recording.' },
+      { id: 'spacy', no: '042', name: 'spaCy', ai: true, rel: 2015, drawers: ['ai', 'text', 'people'], subs: ['nlp'], web: 'https://spacy.io',
+        desc: 'Python toolkit that, among other things, finds names of people, places, organisations and dates in text.',
+        maker: 'Explosion', relLabel: '2015', lic: 'Open source (MIT)', cost: 'Free', runs: 'Your own machine (Python)', skill: 'Programming',
+        src: 'Fully local.',
+        tested: 'Lowest of three tools on 18th-century texts (F1 about 0.4). Off-the-shelf about 0.15–0.19 on colonial Persian Gulf records; 0.65–0.78 after retraining.',
+        issues: 'Its ready-made models learned from modern web text, so they miss historical spellings and transliterated names. Plan to annotate examples and retrain.' },
+      { id: 'voyant', no: '050', name: 'Voyant Tools', ai: false, rel: 2003, drawers: ['text'], subs: ['freq'], web: 'https://voyant-tools.org/',
+        desc: 'Browser-based reading environment: paste in texts and get word frequencies, trends, keywords in context and visualisations. A common first step into text analysis.',
+        maker: 'Stéfan Sinclair and Geoffrey Rockwell', relLabel: 'c. 2003', lic: 'Open source (GPL-3)', cost: 'Free', runs: 'Web browser; local server for private texts', skill: 'No code',
+        src: 'Corpora on the public site can be opened by anyone with the link. Use the local version for sensitive material.',
+        tested: 'Reviewed in Language Learning &amp; Technology (2021); tested on historical Japanese texts (Digital Orientalist, 2021).',
+        issues: 'Word splitting struggles with historical and non-English scripts. Frequency is only a rough proxy for meaning.' },
+      { id: 'mallet', no: '051', name: 'MALLET', ai: false, rel: 2002, drawers: ['text'], subs: ['topics'], web: 'https://mimno.github.io/Mallet/',
+        desc: 'Command-line toolkit best known among historians for topic modelling: finding groups of words that occur together across thousands of documents.',
+        maker: 'Andrew McCallum; maintained by David Mimno', relLabel: '2002', lic: 'Open source (Apache-2.0)', cost: 'Free', runs: 'Your own machine (Java)', skill: 'Some code',
+        src: 'Fully local.',
+        tested: 'Critiqued for historians in the Journal of Digital Humanities (Schmidt 2012; Graham &amp; Milligan 2012).',
+        issues: 'Results depend heavily on settings the documentation doesn’t explain. Neat topic labels can hide incoherent topics; check them against the documents.' },
+      { id: 'gephi', no: '060', name: 'Gephi', ai: false, rel: 2008, drawers: ['networks'], subs: [], web: 'https://gephi.org/',
+        desc: 'Desktop program for drawing and measuring networks, such as who wrote to whom. The most common no-code network tool in digital history.',
+        maker: 'Gephi open-source project', relLabel: '2008', lic: 'Open source (GPL-3 / CDDL)', cost: 'Free', runs: 'Desktop (Windows, macOS, Linux); Gephi Lite in browser', skill: 'No code (steep learning curve)',
+        src: 'Desktop version is local.',
+        tested: 'Discussed for historians in “Demystifying Networks” (Weingart, 2011–12).',
+        issues: 'Its measures assume one kind of node, but historical networks mix people, places and documents. Centrality can reflect what the archive kept rather than past reality.' }
+      ,
+      { id: 'qgis', no: '070', name: 'QGIS', ai: false, rel: 2002, drawers: ['maps'], subs: ['desktop'], web: 'https://qgis.org',
+        desc: 'Free desktop GIS. Historians use it to georeference scanned old maps, geocode places from censuses and directories, and trace historical features in layers.',
+        maker: 'QGIS project (volunteer community)', relLabel: '2002 (now 4.2)', lic: 'Open source (GPL-2+)', cost: 'Free', runs: 'Desktop (Windows, macOS, Linux)', skill: 'No code (steep learning curve)',
+        src: 'Fully local: you work with map files on your own computer.',
+        tested: 'Weighed against ArcGIS by a historian (Colson, IHR blog 2016): free, but with fewer analysis tools.',
+        issues: 'Georeferencing old maps carries over the original survey’s errors and forces fuzzy historical boundaries into hard lines. Most studies never report that uncertainty.' },
+      { id: 'storymap', no: '081', name: 'StoryMap JS', ai: false, rel: 2013, drawers: ['maps'], subs: ['story'], web: 'https://storymap.knightlab.com/',
+        desc: 'Free browser tool for slide-by-slide stories tied to points on a map. Its “gigapixel” mode lets you annotate one large image, such as a scanned historical map.',
+        maker: 'Northwestern University Knight Lab', relLabel: '2013', lic: 'Open source (MIT)', cost: 'Free', runs: 'Web browser (Google sign-in)', skill: 'No code',
+        src: 'Hosted by Knight Lab and needs a Google account. Historical map images must be tiled and hosted by you.',
+        tested: 'Reviewed for teachers on World History Commons. No published research evaluations found.',
+        issues: 'Modern basemaps only, unless you host your own map image; Google Drive image hosting no longer works. Slow development: two releases since late 2023.' },
+      { id: 'whg', no: '071', name: 'World Historical Gazetteer', ai: false, rel: 2019, drawers: ['maps', 'people'], subs: ['gaz'], web: 'https://whgazetteer.org/',
+        desc: 'Free online index of historical place names worldwide. Look up places with their old names, match your own place lists against it, and publish them as linked open data.',
+        maker: 'University of Pittsburgh (Mostern, Grossner, Gadd)', relLabel: '2019 (now v3.2)', lic: 'Open-source code; content CC BY 4.0', cost: 'Free', runs: 'Web browser; API in development', skill: 'No code to search; data prep to contribute',
+        src: 'Uploads stay private until you publish. Published data can’t be deleted, only deprecated.',
+        tested: 'The team’s own critique: “The Lure and Limits of Linked Data” (Spatial Humanities 2024).',
+        issues: 'Many records have no dates. Africa, the pre-colonial Americas, Oceania and Central Asia are thin. Indigenous nations and unnamed sites are hard to find.' },
+      { id: 'recogito', no: '072', name: 'Recogito', ai: false, rel: 2016, drawers: ['maps', 'people'], subs: ['annot'], web: 'https://recogitostudio.org/',
+        desc: 'Browser tool for annotating texts, images and maps together, especially tagging place names and linking them to gazetteers so they can be mapped. Recogito Studio is its newer, institution-hosted successor.',
+        maker: 'Pelagios Network; Studio by Performant Software', relLabel: '2016 (Studio: 2024)', lic: 'Open source (Apache-2.0; Studio AGPL-3.0)', cost: 'Free; paid hosting available for Studio', runs: 'Web browser, hosted or self-hosted', skill: 'No code (self-hosting needs IT)',
+        src: 'Original: a private workspace on the Pelagios server until you share. Studio: stays on whichever instance you use.',
+        tested: 'Usability-tested on museum records (JOHD 2025); reviewed for classicists (SCS 2019).',
+        issues: 'Automatic place and person suggestions were wrong about half the time in one review. Misses minor places and struggles with old spellings and Indigenous names. The original has not been updated since 2019.' },
+      { id: 'oldbailey', type: 'Dataset', no: '101', name: 'Old Bailey Online', rel: 2003, drawers: ['data'], subs: ['records'], web: 'https://www.oldbaileyonline.org/',
+        desc: 'Searchable transcriptions of almost 200,000 trials at London’s central criminal court, 1674–1913, tagged for offences, verdicts and punishments, with page images.',
+        facts: [{ k: 'Holder', v: 'Digital Humanities Institute, University of Sheffield' }, { k: 'Launched', v: '2003 (v9: 2023)' }, { k: 'Coverage', v: '197,752 trials, 1674–1913, plus Ordinary’s Accounts' }, { k: 'Licence', v: 'CC BY-NC 4.0' }, { k: 'Cost', v: 'Free' }, { k: 'Access', v: 'Website; open API (no key); bulk TEI-XML' }],
+        notes: [{ q: 'How the text was made', a: 'Typed by hand twice and compared, not OCR. Well over 99% accurate on clear pages.' }, { q: 'Known gaps and biases', a: 'The Proceedings were a commercial publication shaped by shorthand writers and publishers, not an official record. Offence categories are modern. Search both “s” and “f” spellings before 1807.' }, { q: 'What you can do with it', a: 'Free for research, including topic modelling and NER. Commercial use, including AI training, needs a licence.' }] },
+      { id: 'chronam', type: 'Dataset', no: '102', name: 'Chronicling America', rel: 2007, drawers: ['data'], subs: ['news'], web: 'https://www.loc.gov/collections/chronicling-america/',
+        desc: 'Library of Congress collection of millions of digitised US newspaper pages up to 1963, with freely downloadable OCR text. The default corpus for large-scale work on American newspapers.',
+        facts: [{ k: 'Holder', v: 'Library of Congress and NEH' }, { k: 'Launched', v: '2007' }, { k: 'Coverage', v: 'US newspapers to 1963; about 24 million pages' }, { k: 'Licence', v: 'Mostly public domain' }, { k: 'Cost', v: 'Free' }, { k: 'Access', v: 'Website; JSON API (no key); bulk OCR batches' }],
+        notes: [{ q: 'How the text was made', a: 'Uncorrected OCR, mostly from microfilm. One estimate puts word error above 25%.' }, { q: 'Known gaps and biases', a: 'Coverage depends on which states took part and what each chose to digitise. Columns, headlines and ads are often scrambled together.' }, { q: 'What you can do with it', a: 'Older issues are public domain; later ones may contain copyrighted material.' }] },
+      { id: 'trove', type: 'Dataset', no: '103', name: 'Trove newspapers', rel: 2009, drawers: ['data'], subs: ['news'], web: 'https://trove.nla.gov.au/',
+        desc: 'National Library of Australia portal to hundreds of millions of digitised Australian newspaper articles, mostly 1803–1954, with OCR partly corrected by volunteers.',
+        facts: [{ k: 'Holder', v: 'National Library of Australia' }, { k: 'Launched', v: '2008–09' }, { k: 'Coverage', v: 'Over 200 million articles, mostly 1803–1954' }, { k: 'Licence', v: 'Pre-1955 public domain; API terms unclear' }, { k: 'Cost', v: 'Free; free API key, renewed yearly' }, { k: 'Access', v: 'Website; API v3 with key; no bulk download' }],
+        notes: [{ q: 'How the text was made', a: 'Machine OCR from microfilm; raw accuracy ranged from 71% to 98% in one test. About 6% of articles have been corrected by volunteers.' }, { q: 'Known gaps and biases', a: 'A copyright cliff after 1954. Funding favoured the WWI years and New South Wales papers. Only about 1,790 of an estimated 7,700 titles are included.' }, { q: 'What you can do with it', a: 'API keys can be cancelled and terms have changed without consultation; one leading researcher no longer recommends relying on it.' }] },
+      { id: 'slavevoyages', type: 'Dataset', no: '104', name: 'SlaveVoyages', rel: 1999, drawers: ['data'], subs: ['records'], web: 'https://www.slavevoyages.org',
+        desc: 'Voyage-by-voyage database of about 36,000 trans-Atlantic and 10,000 intra-American slave-trading voyages, built from archival records, with estimates of the trade’s full size.',
+        facts: [{ k: 'Holder', v: 'SlaveVoyages Consortium (Rice University)' }, { k: 'Launched', v: '1999 CD-ROM; online 2008' }, { k: 'Coverage', v: 'About 36,000 voyages, 1514–1866; 95,000 named Africans' }, { k: 'Licence', v: 'Source data public domain; estimates CC BY-NC' }, { k: 'Cost', v: 'Free' }, { k: 'Access', v: 'Website; Excel and CSV downloads' }],
+        notes: [{ q: 'How the data was made', a: 'Compiled by hand from archives in 27 countries over decades, and corrected through user submissions and yearly releases.' }, { q: 'Known gaps and biases', a: 'The early Brazilian trade is thin, and illegal voyages after 1807 were deliberately hidden. Estimates are modelled rather than counted, and some values are imputed (marked *).' }, { q: 'What you can do with it', a: 'Free for research with the site’s preferred citation. Commercial use needs written permission.' }] },
+      { id: 'canadiana', type: 'Dataset', no: '105', name: 'Canadiana', rel: 1999, drawers: ['data'], subs: ['print'], web: 'https://www.canadiana.ca',
+        desc: 'Canada’s largest open collection of digitised historical print and archival material, including Héritage’s millions of pages of microfilmed Library and Archives Canada records.',
+        facts: [{ k: 'Holder', v: 'Canadian Research Knowledge Network' }, { k: 'Launched', v: '1999 (free since 2019)' }, { k: 'Coverage', v: 'Over 60 million pages, 1500s to mid-1900s' }, { k: 'Licence', v: 'Personal and research use; no open licence' }, { k: 'Cost', v: 'Free' }, { k: 'Access', v: 'Website; no API or bulk download yet' }],
+        notes: [{ q: 'How the text was made', a: 'OCR of microfiche for print. Héritage is mostly handwritten and largely not searchable, apart from a Transkribus pilot on Indian Affairs letterbooks.' }, { q: 'Known gaps and biases', a: 'OCR damages names more than common words. Legacy subject headings are still being revised.' }, { q: 'What you can do with it', a: 'Data mining and bulk downloading are prohibited without CRKN’s written permission.' }] },
+      { id: 'hathi', type: 'Dataset', no: '106', name: 'HathiTrust', rel: 2008, drawers: ['data'], subs: ['print'], web: 'https://www.hathitrust.org',
+        desc: 'Shared digital library of more than 18 million books and serials from research libraries. Full-text search across everything; full reading of public-domain works.',
+        facts: [{ k: 'Holder', v: 'HathiTrust (University of Michigan)' }, { k: 'Launched', v: '2008' }, { k: 'Coverage', v: '18 million+ volumes; about 6.7 million public domain' }, { k: 'Licence', v: 'Public domain readable; in-copyright restricted' }, { k: 'Cost', v: 'Free to read; some datasets need a member institution' }, { k: 'Access', v: 'Website; datasets by agreement; Extracted Features (CC BY)' }],
+        notes: [{ q: 'How the text was made', a: 'Uncorrected OCR of scans by Google, the Internet Archive and member libraries.' }, { q: 'Known gaps and biases', a: 'Many duplicate copies skew word counts, and it over-represents what US research libraries held. Secure computational access to in-copyright text closed on 30 September 2026.' }, { q: 'What you can do with it', a: 'Bulk text for non-commercial research only; Google-scanned volumes carry extra conditions.' }] }
+    ];
+    const P = [
+      ['Reading the Archive by Machine: An OCR Benchmark for Historians', '2026', 'Clifford, Polay, Jack et al.', 't', ['chandra', 'olmocr', 'tesseract'], 'https://working-papers-in-critical-search.github.io/paper-004-ocr-benchmark/', 'coi'],
+      ['When Low CER is Not Enough', '2026', 'Gardella et al.', 't', ['chandra', 'deepseek'], 'https://arxiv.org/html/2607.24077'],
+      ['Reading or Guessing? VLM OCR on Greek and Arabic editions', '2026', 'Karamolegkou et al.', 't', ['deepseek', 'olmocr', 'kraken', 'tesseract'], 'https://arxiv.org/html/2605.27750'],
+      ['The Invisibility of Historical Documents in OCR evaluation', '2026', 'Beyene &amp; Dancy', 't', ['olmocr', 'tesseract'], 'https://arxiv.org/html/2603.25761v1'],
+      ['OCR for Pre-Digital Historical Documents using LLMs', '2025', 'Miller &amp; Banerjee', 't', ['olmocr'], 'https://vtechworks.lib.vt.edu/items/669cd15d-4c10-49c6-921a-927a5f22a559'],
+      ['socOCRbench', '2026', 'Dasanaike', 't', ['deepseek', 'paddle', 'mistral'], 'https://noahdasanaike.github.io/posts/sococrbench.html'],
+      ['Digitizing 20 million historical census documents', '2026', 'Dasanaike', 'c', ['paddle'], 'https://noahdasanaike.github.io/posts/digitizing-census.html', 'rej'],
+      ['OCR pipeline for historical print periodicals', '2026', 'Lorenz, BBF', 'c', ['mistral'], 'https://zenodo.org/records/21480551'],
+      ['Dictionnaire de Trévoux (1743) OCR pipeline', '2026', 'LIRIS, Lyon', 'c', ['mistral'], 'https://internship-liris.readthedocs.io/en/latest/Documentation/Scripts/1_Introduction.html'],
+      ['HTR and Sloane’s Miscellanies catalogue', '2019', 'Humbel &amp; Nyhan', 't', ['transkribus'], 'https://discovery.ucl.ac.uk/id/eprint/10072160/'],
+      ['Transcribing the Ottoman Turkish print archive', '2020', 'Kirmizialtin &amp; Wrisley', 't', ['transkribus'], 'https://arxiv.org/abs/2011.01139'],
+      ['VOC, WIC and notarial deeds: 2 million pages', '2020', 'Nationaal Archief', 'c', ['transkribus'], 'https://zenodo.org/records/4159268'],
+      ['A 13th-century French cartulary in eScriptorium', '2024', 'Galli', 't', ['escriptorium'], 'https://revistas.ufrj.br/index.php/lh/article/view/63294'],
+      ['BiblIA: medieval Hebrew manuscripts', '2021', 'Stökl Ben Ezra et al.', 'c', ['escriptorium', 'kraken'], 'https://zenodo.org/records/5167263'],
+      ['Reading manuscripts with HTR', '2026', 'Penn Libraries', 'c', ['escriptorium'], 'https://www.library.upenn.edu/news/handwritten-text-recognition'],
+      ['Tikkoun Sofrim: Hebrew manuscripts with volunteers', '2019', 'Kuflik et al.', 'c', ['kraken'], 'https://dh-abstracts.library.virginia.edu/works/10087'],
+      ['Arabographic OCR (OpenITI)', '2017', 'Romanov et al.', 't', ['kraken'], 'https://arxiv.org/abs/1703.09550'],
+      ['Deutscher Reichsanzeiger, 1819–1945', '2019', 'UB Mannheim', 'c', ['tesseract'], 'https://www.bib.uni-mannheim.de/en/about/projects-of-the-university-library/optimized-use-of-ocr-processes/'],
+      ['Ontario newspapers on a shoestring', '2017', 'Rhyno, OurDigitalWorld', 'c', ['tesseract'], 'https://cf-www.ifla.org/wp-content/uploads/2019/05/assets/newspapers/2017_Iceland/2017-rhyno-en.pdf'],
+      ['OCR quality and newspaper clippings', 'c. 2021', 'Kettunen et al.', 't', ['tesseract'], 'https://arxiv.org/pdf/2206.00369'],
+      ['Newspaper OCR quality: What Have We Learned?', '2020', 'Wilms, KB Lab', 't', ['abbyy'], 'https://lab.kb.nl/node/77'],
+      ['Enhanced OCR for mass digitisation', '2018', 'National Library of Sweden', 't', ['abbyy', 'tesseract'], 'https://rj.se/en/grants/2018/evaluation-and-refinement-of-an-enhanced-ocr-process-for-mass-digitisation'],
+      ['Digitization Decisions: comparing OCR software', '2021', 'Olson &amp; Berry', 't', ['abbyy', 'tesseract'], 'https://journal.code4lib.org/articles/16132'],
+      ['Whisper on the Fortunoff Holocaust testimonies', '2026', 'Mattingly &amp; Bailey-Tomecek', 't', ['whisper'], 'https://aclanthology.org/2026.htres-2.10/'],
+      ['Captioning archival audiovisual collections', '2023', 'Emory Libraries', 'c', ['whisper'], 'https://scholarblogs.emory.edu/woodruff/news/catalyst-fund-grant-to-increase-accessibility-emory-audio-preservation-projects'],
+      ['Whisper and Portuguese oral history', '2026', 'da Silva et al.', 't', ['whisper'], 'https://preview.aclanthology.org/new-sigs/2026.propor-1.30/'],
+      ['NER for the multilingual Persian Gulf', '2022', 'Kapan et al.', 't', ['spacy'], 'https://ceur-ws.org/Vol-3232/paper27.pdf'],
+      ['Ensemble NER for historical place names', '2018', 'Won et al.', 't', ['spacy'], 'https://www.frontiersin.org/journals/digital-humanities/articles/10.3389/fdigh.2018.00002/full'],
+      ['Geoparsing the Gazetteers of Scotland', '2020', 'Filgueira et al.', 'c', ['spacy'], 'https://aclanthology.org/2020.cmlc-1.4'],
+      ['Palabras de fidelidad: Bishop González del Campillo’s letters', '2026', 'Alarcón Martínez', 'r', ['voyant'], 'https://sillares.uanl.mx/index.php/s/article/view/178'],
+      ['The repression of banditry in Andalusia', '2023', 'Spinelli', 'r', ['voyant'], 'https://revistas.unlp.edu.ar/publicaahd/article/view/15163'],
+      ['Textile making in the Lienü zhuan', '2021', 'Lu Wang', 'r', ['voyant'], 'https://digitalorientalist.com/2021/03/30/the-changing-role-of-textile-making-text-analysis-of-digitized-lienu-zhuan-with-voyant-tools-part-i/'],
+      ['Topic Modeling Martha Ballard’s Diary', '2010', 'Blevins', 'r', ['mallet'], 'https://cblevins.github.io/posts/topic-modeling-martha-ballards-diary/'],
+      ['Mining the Dispatch', 'c. 2011', 'Nelson', 'r', ['mallet'], 'https://journalofdigitalhumanities.org/2-1/review-mallet-by-ian-milligan-and-shawn-graham/'],
+      ['The Many Themes of Humanism in the German press', '2020', 'Hakkarainen &amp; Iftikhar', 'r', ['mallet'], 'https://doi.org/10.33134/HUP-5-15'],
+      ['Visualising the Republic of Letters catalogue', '2011', 'Weingart, Cultures of Knowledge', 'r', ['gephi'], 'https://cofk.history.ox.ac.uk/2011/07/20/index.html'],
+      ['Sociability in scientific expeditions', '2021', 'Antunes', 'r', ['gephi'], 'https://revistas.unlp.edu.ar/publicaahd/article/download/13725/13083/52212'],
+      ['Finnish literary translation circles', '2026', 'Ivaska', 'r', ['gephi'], 'https://doi.org/10.1075/btl.172.10iva'],
+      ['Text Mining the Old Bailey for Evidence of Court Behavior', '2016', 'Hitchcock & Turkel', 'r', ['oldbailey'], 'https://model-articles.rrchnm.org/articles/hitchcock-turkel/'],
+      ['The civilizing process in London’s Old Bailey', '2014', 'Klingenstein, Hitchcock & DeDeo', 'r', ['oldbailey'], 'https://sro.sussex.ac.uk/id/eprint/49191/'],
+      ['Old Bailey Corpus 2.0', '2016', 'Huber, Nissel & Puga', 'c', ['oldbailey'], 'https://fedora.clarin-d.uni-saarland.de/oldbailey/license.html'],
+      ['Benchmarking cloud OCR on 180,000 Old Bailey pages', '2020', 'Ughetta & Kernighan', 't', ['oldbailey'], 'https://www.cs.princeton.edu/~bwk/obo.pdf'],
+      ['Uncovering reprinted texts in antebellum newspapers (Viral Texts)', '2015', 'Smith, Cordell & Mullen', 'r', ['chronam'], 'http://viraltexts.org/2015/05/22/computational-methods-for-uncovering-reprinted-texts-in-antebellum-newspapers/'],
+      ['America’s Public Bible', '2023', 'Lincoln Mullen', 'r', ['chronam'], 'https://americaspublicbible.supdigital.org'],
+      ['American Stories: structured text of US newspapers', '2023', 'Dell et al.', 'c', ['chronam'], 'https://arxiv.org/abs/2308.12477'],
+      ['ChroniclingAmericaQA', '2024', 'Piryani, Mozafari & Jatowt', 't', ['chronam'], 'https://arxiv.org/abs/2403.17859'],
+      ['A World of Fiction: Digital Collections and the Future of Literary History', '2018', 'Katherine Bode', 'r', ['trove'], 'https://press.umich.edu/Books/A/A-World-of-Fiction'],
+      ['Domestic workers of colour in late 19th-century Australia', '2020', 'Caroline Bressey', 'r', ['trove'], 'https://discovery-pp.ucl.ac.uk/10104225/1/CB%20Surfacing%20Bodies%20OAV.pdf'],
+      ['To be continued: fiction in Australian newspapers', '2019', 'Katherine Bode', 'c', ['trove'], 'https://researchdata.edu.au/continued/1371113'],
+      ['Finding Names in Trove', '2015', 'Kim & Cassidy', 'c', ['trove'], 'https://aclanthology.org/U15-1007.pdf'],
+      ['Atlantic History and the Slave Trade to Spanish America', '2015', 'Borucki, Eltis & Wheat', 'r', ['slavevoyages'], 'https://learninglink.oup.com/access/content/history-in-practice-western-civ/backman3e-student-resources-volume-1-chapter-14-section-3-scholarly-sources-5'],
+      ['Ship crowding and slave mortality', '2014', 'Nicolas Duquette', 'r', ['slavevoyages'], 'https://bedrosian.usc.edu/?p=2615'],
+      ['Enslaved.org: Peoples of the Historical Slave Trade', '2020', 'Enslaved.org', 'c', ['slavevoyages'], 'https://www.libraryjournal.com/story/enslaved-org-uses-linked-open-data-to-connect-enslavement-records'],
+      ['Coal and place text-mined from Early Canadiana Online', '2013', 'Jim Clifford', 'r', ['canadiana'], 'https://jimclifford.ca/blog/coal-location-date-relationships-text-mined-from-early-canada-online-canadiana-ca.html'],
+      ['A historical commodities lexicon (Trading Consequences)', '2014', 'Klein, Alex & Clifford', 'c', ['canadiana'], 'https://preview.aclanthology.org/fix_video/W14-0603.pdf'],
+      ['Rating OCR quality in Early Canadiana Online', '2014', 'Alex & Burns', 't', ['canadiana'], 'https://homepages.inf.ed.ac.uk/balex/publications/slides-DATeCH.pdf'],
+      ['Indian Affairs letterbooks transcribed with HTR', '2024', 'CRKN and LAC with Gohier, Clifford & Hoy', 'c', ['canadiana', 'transkribus'], 'https://www.crkn-rcdr.ca/en/departmental-letterbooks-fully-transcribed-through-intelligent-character-recognition-icr-pilot'],
+      ['Feminist Bestsellers: A Digital History of 1970s Feminism', '2021', 'Moravec & Chang', 'r', ['hathi'], 'https://post45.org/2021/04/feminist-bestsellers-a-digital-history-of-1970s-feminism/'],
+      ['The gender agency gap in fiction writing, 1850–2010', '2024', 'Oscar Stuhler', 'r', ['hathi'], 'https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11260095/fullTextXML'],
+      ['NovelTM datasets for English-language fiction', '2020', 'Underwood, Kimutis & Witte', 'c', ['hathi'], 'https://doaj.org/article/b4854671648c44e39d38afa9e6932dda'],
+      ['Cleaning Dirty Books: post-OCR processing', '2021', 'Kim et al.', 't', ['hathi'], 'https://arxiv.org/abs/2110.11934'],
+      ['Gender, discrimination and housing in Montréal, 1901–03', '2016', 'Robert Sweeny', 'r', ['qgis'], 'https://www.frontiersin.org/journals/digital-humanities/articles/10.3389/fdigh.2016.00008/full'],
+      ['Montréal, l’avenir du passé (MAP)', '2000–', 'Olson & Sweeny', 'c', ['qgis'], 'https://www.mun.ca/mapm/eng/intro.html'],
+      ['Historical Atlas of the Low Countries, 1350–1800', '2023', 'Rombert Stapel', 'c', ['qgis'], 'https://b2find.eudat.eu/dataset/3e7b8fb3-564d-58b8-87f0-68cdeff281d2'],
+      ['Telling a tale of World War I with StoryMap', '2018', 'Wake Forest Special Collections', 'r', ['storymap'], 'https://zsr.wfu.edu/2018/telling-a-tale-of-world-war-i-using-storymap/', 'pub'],
+      ['Relaciones Geográficas maps', '2018', 'LLILAS Benson, UT Austin', 'c', ['storymap'], 'https://sites.utexas.edu/llilasbensonds/?p=704'],
+      ['March on Milwaukee digital curation', 'n.d.', 'Jasmine Alinder, UW–Milwaukee', 'r', ['storymap'], 'https://uwm.edu/wp-content/uploads/sites/572/2022/11/jasmine-alinder.pdf', 'student'],
+      ['EMEW: a gazetteer of early modern England and Wales', '2024', 'Stephen Gadd et al.', 'c', ['whg'], 'https://pretalx.com/spathum24/speaker/UXC9GP/'],
+      ['HGIS de las Indias in WHG', '2022', 'HGIS de las Indias', 'c', ['whg'], 'https://dh-abstracts.library.virginia.edu/works/11861'],
+      ['Dutch Global History datasets', '2022', 'Rombert Stapel', 'c', ['whg'], 'https://geo.di.huc.knaw.nl/?p=589'],
+      ['Belgian Historical Gazetteer', '2026', 'Léa Hermenault', 'c', ['whg'], 'https://blog.whgazetteer.org/2026/04/17/new-published-datasets/'],
+      ['Burchard of Mount Sion’s Descriptio terrae sanctae', '2021', 'Marianne O’Doherty', 'r', ['recogito'], 'https://eprints.soton.ac.uk/450942'],
+      ['Digital Periegesis (Pausanias)', '2017–', 'Foka, Barker et al.', 'c', ['recogito'], 'https://periegesis.abm.uu.se/en/about.php?aboutid=11'],
+      ['Pelagios 3: early geospatial documents', '2015', 'Simon, Isaksen, Barker & de Soto', 'c', ['recogito'], 'https://eprints.lancs.ac.uk/id/eprint/83803/'],
+      ['Discovering Object Stories (Recogito Studio)', '2025', 'Middle et al.', 't', ['recogito'], 'https://doi.org/10.5334/johd.273']
+    ];
+    // Card "last updated" dates. All seeded 14 Oct 2026; one older date shows how a stale card is flagged.
+    const UPDATED = { abbyy: '2025-08-02' };
+    const fix = (s) => s.replace(/&amp;/g, '&');
+    const yr = (s) => { const m = s.match(/\d{4}/g); return m ? +m[m.length - 1] : 0; };
+    const projs = P.map((p) => ({ t: fix(p[0]), y: p[1], yn: yr(p[1]), who: fix(p[2]), k: p[3], tools: p[4], u: p[5], flag: p[6] || '' }));
+    const win = this.state.win;
+    const stats = {};
+    TOOLS.forEach((t) => {
+      const mine = projs.filter((p) => p.tools.includes(t.id));
+      const counts = mine.filter((p) => p.k !== 't' && p.flag !== 'rej');
+      stats[t.id] = {
+        mine,
+        r: mine.filter((p) => p.k === 'r').length,
+        c: mine.filter((p) => p.k === 'c').length,
+        t: mine.filter((p) => p.k === 't').length,
+        total: counts.length,
+        trend: (w) => counts.filter((p) => p.yn > NOW - w).length
+      };
+    });
+    const sortKey = this.state.sort;
+    const order = (a, b) => {
+      const A = stats[a.id], B = stats[b.id];
+      if (sortKey === 'az') return a.name.localeCompare(b.name);
+      if (sortKey === 'used') return (B.total - A.total) || a.name.localeCompare(b.name);
+      if (sortKey === 'new') return (b.rel - a.rel) || a.name.localeCompare(b.name);
+      return (B.trend(win) - A.trend(win)) || (B.total - A.total) || a.name.localeCompare(b.name);
+    };
+    const sortList = [
+      { id: 'trending', label: 'Trending' },
+      { id: 'used', label: 'Most used' },
+      { id: 'new', label: 'Newest' },
+      { id: 'az', label: 'A–Z' }
+    ];
+    const notes = {
+      trending: 'Counts research and corpus-building uses in the window (and, on the live site, “I’m using this now” check-ins). Benchmarks don’t count.',
+      used: 'All research and corpus-building uses, all time. Favours older tools.',
+      new: 'Most recently released tools first.',
+      az: 'Plain alphabetical order.'
+    };
+    const kindMeta = {
+      r: { label: 'Used in research', ink: '#D98F7E', empty: 'No published research uses found yet. Using it in a project? Tell us.' },
+      c: { label: 'Used to build corpora', ink: '#9DB4D9', empty: 'None recorded yet.' },
+      t: { label: 'Tested in', ink: '#A89C88', empty: 'No published evaluations found yet.' }
+    };
+    const subsFor = {
+      ai: [{ id: 'vlm', label: 'VLM OCR' }, { id: 'htr', label: 'Handwriting (HTR)' }, { id: 'speech', label: 'Speech-to-text' }, { id: 'nlp', label: 'NER &amp; NLP' }],
+      ocr: [{ id: 'classic', label: 'Classic OCR' }, { id: 'htr', label: 'Handwriting (HTR)' }, { id: 'vlm', label: 'VLM OCR' }],
+      text: [{ id: 'freq', label: 'Reading at scale' }, { id: 'topics', label: 'Topic models' }, { id: 'nlp', label: 'NER &amp; NLP' }],
+      maps: [{ id: 'desktop', label: 'Desktop GIS' }, { id: 'gaz', label: 'Gazetteers' }, { id: 'annot', label: 'Place annotation' }, { id: 'story', label: 'Story maps' }],
+      data: [{ id: 'news', label: 'Newspapers' }, { id: 'records', label: 'Records &amp; databases' }, { id: 'print', label: 'Books &amp; archives' }]
+    };
+    const subBlurb = {
+      vlm: 'Vision-language models read the whole page image, layout and all, instead of recognising characters line by line. All of these are under two years old, and so far every recorded use is a benchmark or a digitisation pipeline. Read the historian’s notes before trusting one with your sources.',
+      htr: 'Tools you train on your own transcribed pages to read handwriting and difficult print.',
+      classic: 'Established OCR engines for printed text. Mature, predictable and widely used in library digitisation.',
+      news: 'Digitised newspapers with machine-read text. Check each card’s note on how the text was made: error rates vary hugely by title and decade.'
+    };
+    const drawerList = [
+      { id: 'ai', no: 'I', label: 'AI &amp; History', blurb: 'Machine learning, vision-language models and speech models. Every card here carries notes on where your sources go, how it was tested, and how it fails.' },
+      { id: 'ocr', no: 'II', label: 'OCR &amp; Handwriting', blurb: 'Turning page images into searchable text, from printed newspapers to manuscript hands.' },
+      { id: 'text', no: 'III', label: 'Text Analysis', blurb: 'Reading at scale: word frequencies, topic models, entity extraction.' },
+      { id: 'people', no: 'IV', label: 'People &amp; Places', blurb: 'Finding named people, places and organisations in your sources.' },
+      { id: 'networks', no: 'V', label: 'Networks', blurb: 'Correspondence, kinship, trade and other relationships as graphs.' },
+      { id: 'audio', no: 'VI', label: 'Oral History &amp; Audio', blurb: 'Transcribing and working with recorded interviews and archival sound.' },
+      { id: 'maps', no: 'VII', label: 'Mapping &amp; GIS', blurb: 'Historical places, boundaries and movement on maps.' },
+      { id: 'data', no: 'VIII', label: 'Public Datasets', blurb: 'Open corpora and collections others have built and shared. Each card says how the text was made and what you’re allowed to do with it.' }
+    ];
+    const trendTop = TOOLS.map((t) => ({ name: t.name, n: stats[t.id].trend(2), total: stats[t.id].total }))
+      .filter((t) => t.n > 0).sort((a, b) => (b.n - a.n) || (b.total - a.total) || a.name.localeCompare(b.name)).slice(0, 5)
+      .map((t, i) => ({ ...t, rank: String(i + 1).padStart(2, '0') }));
+    return {
+      accent,
+      win: String(win),
+      pickWin: (ev) => this.setState({ win: +ev.target.value }),
+      toolCount: TOOLS.filter((t) => t.type !== 'Dataset').length,
+      dataCount: TOOLS.filter((t) => t.type === 'Dataset').length,
+      projCount: projs.length,
+      trending: trendTop,
+      sorts: sortList.map((s) => ({
+        ...s, on: s.id === sortKey,
+        ink: s.id === sortKey ? '#1A1510' : '#D9CDB6',
+        bg: s.id === sortKey ? accent : 'transparent',
+        pick: () => this.setState({ sort: s.id })
+      })),
+      showWindow: sortKey === 'trending',
+      sortNote: notes[sortKey],
+      drawers: drawerList.map((d) => {
+        const inside = TOOLS.filter((t) => t.drawers.includes(d.id));
+        const isOpen = this.state.drawer === d.id;
+        const subs = (subsFor[d.id] || []).map((s) => ({ ...s, label: fix(s.label) })).filter((s) => inside.some((t) => t.subs.includes(s.id)));
+        const curSub = isOpen ? (this.state.sub || 'all') : 'all';
+        const filtered = curSub === 'all' ? inside : inside.filter((t) => t.subs.includes(curSub));
+        const tabList = subs.length ? [{ id: 'all', label: 'All' }].concat(subs) : [];
+        const filled = inside.length > 0;
+        return {
+          ...d,
+          label: fix(d.label),
+          open: isOpen, closed: !isOpen,
+          span: isOpen ? '1 / -1' : 'auto',
+          bg: filled ? '#231F1B' : '#181513',
+          plate: filled ? accent : '#4A423A',
+          labelInk: filled ? '#EDE4D3' : '#8F8472',
+          countLabel: filled ? inside.length + (inside.length === 1 ? ' card' : ' cards') : 'Not yet filled',
+          cta: filled ? 'Pull out ↓' : 'Suggest one',
+          peek: filled ? inside.slice().sort(order).slice(0, 3).map((t) => t.name).join(' · ') : 'Waiting for its first entries',
+          hasSubs: subs.length > 0,
+          subNote: subBlurb[curSub] || '',
+          hasSubNote: !!subBlurb[curSub],
+          empty: filtered.length === 0,
+          tabs: tabList.map((s) => {
+            const n = s.id === 'all' ? inside.length : inside.filter((t) => t.subs.includes(s.id)).length;
+            const on = s.id === curSub;
+            return { label: s.label, n, on, ink: on ? '#EDE4D3' : '#B8AC97', bg: on ? '#2B2621' : '#1C1916', border: on ? accent : '#3A332C', weight: on ? '600' : '400', pick: () => this.setState({ sub: s.id, card: null }) };
+          }),
+          toggle: () => this.setState({ drawer: isOpen ? null : d.id, sub: 'all', card: null }),
+          cards: filtered.slice().sort(order).map((t) => {
+            const st = stats[t.id];
+            const cardOpen = this.state.card === t.id;
+            return {
+              ...t,
+              desc: fix(t.desc),
+              r: st.r, c: st.c, t: st.t,
+              open: cardOpen, closed: !cardOpen,
+              span: cardOpen ? '1 / -1' : 'auto',
+              ...(() => {
+                const u = UPDATED[t.id] || '2026-10-14';
+                const ageMonths = (new Date('2026-10-14') - new Date(u)) / (1000 * 60 * 60 * 24 * 30.4);
+                const stale = ageMonths >= 12;
+                const d = new Date(u + 'T12:00:00');
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                return {
+                  updLabel: (stale ? 'Due for review · last updated ' : 'Last updated ') + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear(),
+                  updShort: stale ? 'Due for review' : 'Updated ' + months[d.getMonth()] + ' ' + d.getFullYear(),
+                  updInk: stale ? '#E3A08F' : '#8F8472'
+                };
+              })(),
+              type: t.type || 'Tool',
+              typeInk: t.type === 'Dataset' ? '#7FB8A8' : accent,
+              facts: t.facts || [
+                { k: 'Maker', v: t.maker }, { k: 'Released', v: t.relLabel }, { k: 'Licence', v: t.lic },
+                { k: 'Cost', v: t.cost }, { k: 'Runs', v: t.runs }, { k: 'Skill', v: t.skill }
+              ],
+              notes: t.notes || [
+                { q: 'Where your sources go', a: fix(t.src) },
+                { q: 'How it’s been tested', a: fix(t.tested) },
+                { q: 'Known problems on historical sources', a: fix(t.issues) }
+              ],
+              uses: ['r', 'c', 't'].map((k) => {
+                const items = st.mine.filter((p) => p.k === k).sort((a, b) => b.yn - a.yn)
+                  .map((p) => ({ ...p, tag: { coi: ' · editor’s own paper', rej: ' · tried and rejected', pub: ' · public history', student: ' · student project' }[p.flag] || '' }));
+                return { ...kindMeta[k], items, n: items.length, none: items.length === 0 };
+              }),
+              toggle: () => this.setState({ card: cardOpen ? null : t.id })
+            };
+          })
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

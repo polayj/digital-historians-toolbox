@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toolbox — Search</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#121010}
+a{color:#D4A84B}a:hover{color:#E8C877}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #121010; color: #EDE4D3; font-family: 'IBM Plex Sans', sans-serif;">
+  <header style="border-bottom: 1px solid #3A332C;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; color: #EDE4D3; text-decoration: none;">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="9" width="28" height="20" rx="2" fill="none" stroke="#EDE4D3" stroke-width="2"></rect><path d="M12 9V5h10v4" fill="none" stroke="#EDE4D3" stroke-width="2"></path><path d="M3 17h28" stroke="#D4A84B" stroke-width="2"></path></svg>
+        <span style="font-family: 'Libre Caslon Text', serif; font-weight: 700; font-size: 20px;">The Digital Historian’s Toolbox</span>
+      </a>
+      <nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; align-items: center;">
+        <a href="Main.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Catalogue</a>
+        <a href="Search.dc.html" aria-current="page" style="color: #EDE4D3; text-decoration: none; padding: 12px 14px; font-size: 15px; font-weight: 600; border-bottom: 2px solid #D4A84B;">Search</a>
+        <a href="Network.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Network</a>
+        <a href="About.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">About</a>
+        <a href="Submit.dc.html" style="color: #1A1510; background: #D4A84B; text-decoration: none; padding: 12px 18px; font-size: 15px; font-weight: 600; border-radius: 4px; margin-left: 8px;">Submit an entry</a>
+      </nav>
+    </div>
+  </header>
+
+  <section style="max-width: 1280px; margin: 0 auto; padding: 40px 32px 24px; display: flex; flex-direction: column; gap: 14px;">
+    <h1 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 40px;">Search the catalogue</h1>
+    <form role="search" style="display: flex; flex-wrap: wrap; gap: 10px; max-width: 820px;">
+      <label for="q" style="position: absolute; left: -9999px;">Search</label>
+      <input id="q" type="search" value="handwriting" style="flex: 1 1 360px; min-height: 52px; padding: 0 18px; font: inherit; font-size: 17px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+      <button type="submit" style="min-height: 52px; padding: 0 26px; font: inherit; font-size: 16px; font-weight: 600; color: #1A1510; background: #D4A84B; border: none; border-radius: 4px;">Search</button>
+    </form>
+  </section>
+
+  <main style="max-width: 1280px; margin: 0 auto; padding: 8px 32px 56px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+    <aside aria-label="Filters" style="flex: 1 1 240px; max-width: 280px; display: flex; flex-direction: column; gap: 26px;">
+      <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+        <fieldset style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px;">
+          <legend style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8F8472; margin-bottom: 8px;">{{f.label}}</legend>
+          <sc-for list="{{f.options}}" as="o" hint-placeholder-count="3">
+            <label style="display: flex; align-items: center; gap: 10px; min-height: 34px; font-size: 15px; color: #D9CDB6;">
+              <input type="checkbox" checked="{{o.on}}" style="width: 18px; height: 18px; accent-color: #D4A84B;">
+              <span>{{o.name}}</span>
+            </label>
+          </sc-for>
+        </fieldset>
+      </sc-for>
+    </aside>
+
+    <section aria-label="Results" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column;">
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 3px double #3A332C;">
+        <p style="margin: 0; font-size: 15px; color: #B8AC97;"><strong style="color: #EDE4D3;">7 results</strong> for “handwriting”</p>
+        <label style="display: flex; gap: 8px; align-items: center; font-size: 14px; color: #B8AC97;">Sort
+          <select style="min-height: 40px; padding: 0 10px; font: inherit; font-size: 14px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+            <option>Trending (past 2 years)</option>
+            <option>Most used (all time)</option>
+            <option>Newly added</option>
+            <option>A–Z</option>
+          </select>
+        </label>
+      </div>
+      <sc-for list="{{results}}" as="r" hint-placeholder-count="5">
+        <article style="display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #3A332C;">
+          <span style="flex: 0 0 120px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: {{r.ink}};">{{r.type}} · {{r.no}}</span>
+          <div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+            <h2 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 22px;"><a href="Main.dc.html" style="color: #EDE4D3; text-decoration: none;">{{r.name}}</a>
+              <sc-if value="{{r.ai}}" hint-placeholder-val="{{false}}"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 2px 6px; margin-left: 8px; vertical-align: middle; border: 1px solid #D4A84B; border-radius: 3px; color: #D4A84B;">AI</span></sc-if>
+            </h2>
+            <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #B8AC97;">{{r.desc}}</p>
+          </div>
+          <div style="flex: 0 0 170px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #8F8472;">
+            <span>{{r.cost}}</span>
+            <a href="Network.dc.html">{{r.uses}}</a>
+          </div>
+        </article>
+      </sc-for>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const tool = { type: 'Tool', ink: '#D4A84B' };
+    const data = { type: 'Dataset', ink: '#7FB8A8' };
+    const proj = { type: 'Project', ink: '#D98F7E' };
+    return {
+      filters: [
+        { label: 'Type', options: [{ name: 'Tools', on: true }, { name: 'Datasets', on: true }, { name: 'Projects', on: true }] },
+        { label: 'AI', options: [{ name: 'AI tools only', on: false }, { name: 'Runs locally', on: false }, { name: 'Has published evaluation', on: false }] },
+        { label: 'Cost', options: [{ name: 'Free', on: false }, { name: 'Free tier + paid', on: false }, { name: 'Paid', on: false }] },
+        { label: 'Skill needed', options: [{ name: 'No code', on: false }, { name: 'Some code', on: false }, { name: 'Programming', on: false }] }
+      ],
+      results: [
+        { ...tool, no: '015', ai: true, name: 'eScriptorium', desc: 'Open-source web platform for transcribing historical manuscripts and print. Strong on Hebrew, Arabic and other non-Latin scripts.', cost: 'Free · open source', uses: '2 corpus · 1 tested' },
+        { ...tool, no: '014', ai: true, name: 'Transkribus', desc: 'Upload scans of handwritten or printed documents and get transcriptions back, using public models or one you train yourself.', cost: 'Free tier + paid credits', uses: '1 corpus · 2 tested' },
+        { ...tool, no: '013', ai: true, name: 'Kraken', desc: 'The open-source recognition engine behind eScriptorium, run from the command line.', cost: 'Free · open source', uses: '2 corpus · 2 tested' },
+        { ...tool, no: '020', ai: true, name: 'Mistral OCR', desc: 'Commercial cloud OCR in about 170 languages. German Kurrent and other historical hands remain hard.', cost: '≈ $4 per 1,000 pages', uses: '2 corpus · 1 tested' },
+        { ...tool, no: '016', ai: true, name: 'Chandra', desc: 'Vision-language OCR that keeps tables and layout. Its makers claim handwriting support but publish no figures for it.', cost: 'Free to self-host; paid API', uses: '0 research · 2 tested' },
+        { ...proj, no: 'P-12', ai: false, name: 'VOC, WIC and notarial deeds: 2 million pages', desc: 'Nationaal Archief used Transkribus to transcribe 17th–19th-century Dutch company and notarial records. Corpus building.', cost: '2020', uses: 'Uses: Transkribus' },
+        { ...proj, no: 'P-14', ai: false, name: 'BiblIA: medieval Hebrew manuscripts', desc: '202 manuscript images from the BnF and Vatican transcribed with eScriptorium and Kraken. Corpus building.', cost: '2021', uses: 'Uses: eScriptorium, Kraken' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

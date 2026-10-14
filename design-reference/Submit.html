@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toolbox — Submit an entry</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#121010}
+a{color:#D4A84B}a:hover{color:#E8C877}
+input::placeholder,textarea::placeholder{color:#8F8472}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #121010; color: #EDE4D3; font-family: 'IBM Plex Sans', sans-serif;">
+  <header style="border-bottom: 1px solid #3A332C;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; color: #EDE4D3; text-decoration: none;">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="9" width="28" height="20" rx="2" fill="none" stroke="#EDE4D3" stroke-width="2"></rect><path d="M12 9V5h10v4" fill="none" stroke="#EDE4D3" stroke-width="2"></path><path d="M3 17h28" stroke="#D4A84B" stroke-width="2"></path></svg>
+        <span style="font-family: 'Libre Caslon Text', serif; font-weight: 700; font-size: 20px;">The Digital Historian’s Toolbox</span>
+      </a>
+      <nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; align-items: center;">
+        <a href="Main.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Catalogue</a>
+        <a href="Search.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Search</a>
+        <a href="Network.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Network</a>
+        <a href="About.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">About</a>
+        <a href="Submit.dc.html" aria-current="page" style="color: #1A1510; background: #D4A84B; text-decoration: none; padding: 12px 18px; font-size: 15px; font-weight: 600; border-radius: 4px; margin-left: 8px;">Submit an entry</a>
+      </nav>
+    </div>
+  </header>
+
+  <main style="max-width: 820px; margin: 0 auto; padding: 48px 32px 64px; display: flex; flex-direction: column; gap: 28px;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #D4A84B;">Add a card to the catalogue</p>
+      <h1 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 44px;">Submit an entry</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #B8AC97;">A tool, a dataset, or a project that used them. An editor reviews every card before it’s filed, usually within [timeframe].</p>
+    </div>
+
+    <form style="display: flex; flex-direction: column; gap: 24px;">
+      <fieldset style="border: none; margin: 0; padding: 0;">
+        <legend style="font-weight: 600; font-size: 16px; margin-bottom: 10px;">What are you adding?</legend>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          <label style="display: flex; gap: 10px; align-items: flex-start; padding: 16px; background: #2B2621; border: 1px solid #D4A84B; border-radius: 6px;">
+            <input type="radio" name="kind" checked style="width: 18px; height: 18px; margin-top: 2px; accent-color: #D4A84B;">
+            <span style="display: flex; flex-direction: column; gap: 2px;"><strong style="color: #D4A84B;">A tool</strong><span style="font-size: 14px; color: #B8AC97;">Software, model or platform</span></span>
+          </label>
+          <label style="display: flex; gap: 10px; align-items: flex-start; padding: 16px; background: #1C1916; border: 1px solid #3A332C; border-radius: 6px;">
+            <input type="radio" name="kind" style="width: 18px; height: 18px; margin-top: 2px; accent-color: #D4A84B;">
+            <span style="display: flex; flex-direction: column; gap: 2px;"><strong style="color: #7FB8A8;">A dataset</strong><span style="font-size: 14px; color: #B8AC97;">A public corpus or collection</span></span>
+          </label>
+          <label style="display: flex; gap: 10px; align-items: flex-start; padding: 16px; background: #1C1916; border: 1px solid #3A332C; border-radius: 6px;">
+            <input type="radio" name="kind" style="width: 18px; height: 18px; margin-top: 2px; accent-color: #D4A84B;">
+            <span style="display: flex; flex-direction: column; gap: 2px;"><strong style="color: #D98F7E;">A project</strong><span style="font-size: 14px; color: #B8AC97;">Research that used tools or data</span></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="name" style="font-weight: 600; font-size: 15px;">Name</label>
+          <input id="name" type="text" placeholder="e.g. Transkribus" style="min-height: 46px; padding: 0 14px; font: inherit; font-size: 16px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="url" style="font-weight: 600; font-size: 15px;">Website or repository</label>
+          <input id="url" type="url" placeholder="https://" style="min-height: 46px; padding: 0 14px; font: inherit; font-size: 16px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label for="desc" style="font-weight: 600; font-size: 15px;">What does it do? <span style="font-weight: 400; color: #8F8472;">(one or two sentences)</span></label>
+        <textarea id="desc" rows="3" style="padding: 12px 14px; font: inherit; font-size: 16px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px; resize: vertical;"></textarea>
+      </div>
+
+      <fieldset style="border: none; margin: 0; padding: 0;">
+        <legend style="font-weight: 600; font-size: 15px; margin-bottom: 10px;">Drawers it belongs in <span style="font-weight: 400; color: #8F8472;">(pick any)</span></legend>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <sc-for list="{{methods}}" as="m" hint-placeholder-count="8">
+            <label style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; background: #1C1916; border: 1px solid #3A332C; border-radius: 999px; font-size: 14px; color: #D9CDB6;">
+              <input type="checkbox" style="width: 16px; height: 16px; accent-color: #D4A84B;">{{m}}
+            </label>
+          </sc-for>
+        </div>
+      </fieldset>
+
+      <section style="background: #2B2621; border: 1px solid #5A5047; border-radius: 6px; padding: 22px; display: flex; flex-direction: column; gap: 16px;">
+        <label style="display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 15px;">
+          <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: #D4A84B;">This tool uses AI (machine learning, LLMs, vision or speech models)
+        </label>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #B8AC97;">These answers become the card’s “Historian’s notes.” Leave any you don’t know blank.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label for="data" style="font-size: 14px; color: #D9CDB6;">Where do uploaded sources go?</label>
+            <select id="data" style="min-height: 44px; padding: 0 10px; font: inherit; font-size: 15px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+              <option>Stays on your machine</option>
+              <option>Vendor cloud, not used for training</option>
+              <option>Vendor cloud, may be used for training</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label for="eval" style="font-size: 14px; color: #D9CDB6;">Published evaluation or benchmark</label>
+            <input id="eval" type="url" placeholder="Link or DOI" style="min-height: 44px; padding: 0 12px; font: inherit; font-size: 15px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="fail" style="font-size: 14px; color: #D9CDB6;">Known problems on historical sources</label>
+          <textarea id="fail" rows="2" placeholder="e.g. invents words on damaged pages, drops marginalia" style="padding: 10px 12px; font: inherit; font-size: 15px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px; resize: vertical;"></textarea>
+        </div>
+      </section>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label for="proj" style="font-weight: 600; font-size: 15px;">Projects or publications that used it <span style="font-weight: 400; color: #8F8472;">(optional, one per line)</span></label>
+        <textarea id="proj" rows="3" placeholder="Title, link or DOI" style="padding: 12px 14px; font: inherit; font-size: 16px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px; resize: vertical;"></textarea>
+        <span style="font-size: 13px; color: #8F8472;">These become the lines on the network graph.</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="who" style="font-weight: 600; font-size: 15px;">Your name <span style="font-weight: 400; color: #8F8472;">(credited on the card)</span></label>
+          <input id="who" type="text" style="min-height: 46px; padding: 0 14px; font: inherit; font-size: 16px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="mail" style="font-weight: 600; font-size: 15px;">Email <span style="font-weight: 400; color: #8F8472;">(never shown)</span></label>
+          <input id="mail" type="email" style="min-height: 46px; padding: 0 14px; font: inherit; font-size: 16px; color: #EDE4D3; background: #1C1916; border: 1px solid #5A5047; border-radius: 4px;">
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; border-top: 3px double #3A332C; padding-top: 22px;">
+        <button type="submit" style="min-height: 52px; padding: 0 28px; font: inherit; font-size: 16px; font-weight: 600; color: #1A1510; background: #D4A84B; border: none; border-radius: 4px;">Send for review</button>
+        <span style="font-size: 14px; color: #8F8472;">You’ll get an email when it’s filed.</span>
+      </div>
+    </form>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      methods: ['AI & history', 'OCR / HTR', 'LLM-assisted', 'Speech-to-text', 'Named entity recognition', 'Topic modelling', 'Text analysis', 'Networks', 'Mapping', 'Digital exhibits']
+    };
+  }
+}
+</script>
+</body>
+</html>

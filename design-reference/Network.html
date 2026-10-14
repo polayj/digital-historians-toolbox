@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toolbox — Network</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#121010}
+a{color:#D4A84B}a:hover{color:#E8C877}
+button{cursor:pointer}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #121010; color: #EDE4D3; font-family: 'IBM Plex Sans', sans-serif;">
+  <header style="border-bottom: 1px solid #3A332C;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; color: #EDE4D3; text-decoration: none;">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="9" width="28" height="20" rx="2" fill="none" stroke="#EDE4D3" stroke-width="2"></rect><path d="M12 9V5h10v4" fill="none" stroke="#EDE4D3" stroke-width="2"></path><path d="M3 17h28" stroke="#D4A84B" stroke-width="2"></path></svg>
+        <span style="font-family: 'Libre Caslon Text', serif; font-weight: 700; font-size: 20px;">The Digital Historian’s Toolbox</span>
+      </a>
+      <nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; align-items: center;">
+        <a href="Main.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Catalogue</a>
+        <a href="Search.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">Search</a>
+        <a href="Network.dc.html" aria-current="page" style="color: #EDE4D3; text-decoration: none; padding: 12px 14px; font-size: 15px; font-weight: 600; border-bottom: 2px solid #D4A84B;">Network</a>
+        <a href="About.dc.html" style="color: #B8AC97; text-decoration: none; padding: 12px 14px; font-size: 15px;">About</a>
+        <a href="Submit.dc.html" style="color: #1A1510; background: #D4A84B; text-decoration: none; padding: 12px 18px; font-size: 15px; font-weight: 600; border-radius: 4px; margin-left: 8px;">Submit an entry</a>
+      </nav>
+    </div>
+  </header>
+
+  <main style="max-width: 1280px; margin: 0 auto; padding: 40px 32px 56px; display: flex; flex-direction: column; gap: 22px;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <h1 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 44px;">Who used what</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #B8AC97; max-width: 760px;">Tools and datasets in the centre, projects around the edge. Click any point to see its connections. Turn benchmarks off to see which tools historians have actually put to work.</p>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+      <figure style="flex: 999 1 640px; min-width: 0; margin: 0; background: #1C1916; border: 1px solid #3A332C; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: #D9CDB6; align-items: center;">
+          <span style="display: inline-flex; gap: 8px; align-items: center;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; background: #D4A84B;"></span>Tool</span>
+          <span style="display: inline-flex; gap: 8px; align-items: center;"><span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 2px; background: #7FB8A8;"></span>Dataset</span>
+          <span style="display: inline-flex; gap: 8px; align-items: center;"><span aria-hidden="true" style="width: 11px; height: 11px; transform: rotate(45deg); background: #D98F7E;"></span>Research</span>
+          <span style="display: inline-flex; gap: 8px; align-items: center;"><span aria-hidden="true" style="width: 11px; height: 11px; transform: rotate(45deg); background: #9DB4D9;"></span>Corpus building</span>
+          <span style="display: inline-flex; gap: 8px; align-items: center;"><span aria-hidden="true" style="width: 9px; height: 9px; transform: rotate(45deg); border: 1.5px solid #A89C88;"></span>Evaluation</span>
+          <span style="margin-left: auto; color: #8F8472;">Size = research + corpus uses</span>
+        </div>
+        <div style="position: relative; width: 100%; aspect-ratio: 1000 / 820;">
+          <svg viewBox="0 0 1000 820" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+            <path d="{{edges.t}}" fill="none" stroke="#5A5047" stroke-width="1" stroke-dasharray="3 4" opacity="{{edgeOp}}"></path>
+            <path d="{{edges.c}}" fill="none" stroke="#9DB4D9" stroke-width="1.3" opacity="{{edgeOp}}"></path>
+            <path d="{{edges.r}}" fill="none" stroke="#D98F7E" stroke-width="1.5" opacity="{{edgeOp}}"></path>
+            <path d="{{edges.hi}}" fill="none" stroke="#E8C877" stroke-width="2.5"></path>
+          </svg>
+          <sc-for list="{{nodes}}" as="n" hint-placeholder-count="20">
+            <button type="button" onClick="{{n.pick}}" title="{{n.title}}" aria-label="{{n.title}}" aria-pressed="{{n.sel}}" style="position: absolute; left: {{n.lx}}%; top: {{n.ly}}%; transform: translate(-50%, -50%); padding: 0; border: none; background: transparent; display: flex; flex-direction: {{n.dir}}; align-items: center; gap: 3px; opacity: {{n.op}}; min-width: 24px; min-height: 24px; justify-content: center;">
+              <span aria-hidden="true" style="display: block; width: {{n.size}}px; height: {{n.size}}px; border-radius: {{n.radius}}; transform: {{n.rot}}; background: {{n.fill}}; border: {{n.border}}; box-shadow: {{n.glow}};"></span>
+              <sc-if value="{{n.showLabel}}" hint-placeholder-val="{{true}}">
+                <span style="font-size: 11px; font-weight: 600; color: #EDE4D3; white-space: nowrap; text-shadow: 0 0 4px #121010, 0 0 4px #121010;">{{n.label}}</span>
+              </sc-if>
+            </button>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+          <button type="button" onClick="{{toggleEval}}" aria-pressed="{{showEval}}" style="min-height: 40px; padding: 0 14px; font: inherit; font-size: 14px; color: {{evalInk}}; background: {{evalBg}}; border: 1px solid #5A5047; border-radius: 4px;">{{evalLabel}}</button>
+          <button type="button" onClick="{{clearSel}}" style="min-height: 40px; padding: 0 14px; font: inherit; font-size: 14px; color: #EDE4D3; background: transparent; border: 1px solid #5A5047; border-radius: 4px;">Clear selection</button>
+          <span style="margin-left: auto; font-size: 13px; color: #8F8472;">{{summary}}</span>
+        </div>
+      </figure>
+
+      <aside aria-label="Selection" style="flex: 1 1 300px; max-width: 380px; display: flex; flex-direction: column; gap: 16px;">
+        <sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+          <section style="background: #2B2621; border: 1px solid #D4A84B; border-radius: 6px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: {{sel.ink}};">{{sel.kicker}}</span>
+            <h2 style="margin: 0; font-family: 'Libre Caslon Text', serif; font-weight: 400; font-size: 26px; line-height: 1.2;">{{sel.name}}</h2>
+            <span style="font-size: 14px; color: #B8AC97;">{{sel.sub}}</span>
+            <sc-for list="{{sel.groups}}" as="g" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 6px;">
+                <h3 style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: {{g.ink}};">{{g.label}} · {{g.n}}</h3>
+                <sc-for list="{{g.items}}" as="i" hint-placeholder-count="2">
+                  <span style="font-size: 14px; line-height: 1.4; border-left: 2px solid {{g.ink}}; padding-left: 10px;"><a href="{{i.u}}" target="_blank" rel="noopener">{{i.t}}</a> <span style="color: #8F8472;">{{i.meta}}</span></span>
+                </sc-for>
+              </div>
+            </sc-for>
+            <sc-if value="{{sel.isProject}}" hint-placeholder-val="{{false}}">
+              <a href="{{sel.u}}" target="_blank" rel="noopener" style="font-weight: 600; font-size: 15px;">Open the project ↗</a>
+            </sc-if>
+            <sc-if value="{{sel.isTool}}" hint-placeholder-val="{{true}}">
+              <a href="Main.dc.html" style="font-weight: 600; font-size: 15px;">Open its card →</a>
+            </sc-if>
+          </section>
+        </sc-if>
+        <sc-if value="{{noSel}}" hint-placeholder-val="{{false}}">
+          <section style="background: #1C1916; border: 1px solid #3A332C; border-radius: 6px; padding: 20px; font-size: 15px; line-height: 1.5; color: #B8AC97;">Click a tool or a project on the graph to see what it connects to.</section>
+        </sc-if>
+
+        <section style="background: #1C1916; border: 1px solid #3A332C; border-radius: 6px; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+          <h2 style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8F8472;">Often used together</h2>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: #D9CDB6;">
+            <sc-for list="{{pairs}}" as="p" hint-placeholder-count="4"><li>{{p.a}} + {{p.b}} <span style="color: #8F8472;">· {{p.n}} projects</span></li></sc-for>
+          </ol>
+          <span style="font-size: 13px; color: #8F8472;">{{pairsNote}}</span>
+        </section>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1150}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 'tool:canadiana', showEval: true };
+  }
+  renderVals() {
+    const TOOLS = [
+      ['tesseract', 'Tesseract'], ['abbyy', 'ABBYY FineReader'], ['transkribus', 'Transkribus'], ['escriptorium', 'eScriptorium'], ['kraken', 'Kraken'],
+      ['chandra', 'Chandra'], ['olmocr', 'olmOCR'], ['deepseek', 'DeepSeek-OCR'], ['paddle', 'PaddleOCR-VL'], ['mistral', 'Mistral OCR'],
+      ['whisper', 'Whisper'], ['spacy', 'spaCy'], ['voyant', 'Voyant Tools'], ['mallet', 'MALLET'], ['gephi', 'Gephi'],
+      ['qgis', 'QGIS'], ['storymap', 'StoryMap JS'], ['whg', 'World Hist. Gazetteer'], ['recogito', 'Recogito'],
+      ['oldbailey', 'Old Bailey', 1], ['chronam', 'Chronicling America', 1], ['trove', 'Trove', 1], ['slavevoyages', 'SlaveVoyages', 1], ['canadiana', 'Canadiana', 1], ['hathi', 'HathiTrust', 1]
+    ].map((t) => ({ id: t[0], name: t[1], ds: !!t[2] }));
+    const P = [
+      ['Reading the Archive by Machine', '2026', 'Clifford, Polay, Jack et al.', 't', ['chandra', 'olmocr', 'tesseract'], 'https://working-papers-in-critical-search.github.io/paper-004-ocr-benchmark/'],
+      ['When Low CER is Not Enough', '2026', 'Gardella et al.', 't', ['chandra', 'deepseek'], 'https://arxiv.org/html/2607.24077'],
+      ['Reading or Guessing?', '2026', 'Karamolegkou et al.', 't', ['deepseek', 'olmocr', 'kraken', 'tesseract'], 'https://arxiv.org/html/2605.27750'],
+      ['The Invisibility of Historical Documents', '2026', 'Beyene and Dancy', 't', ['olmocr', 'tesseract'], 'https://arxiv.org/html/2603.25761v1'],
+      ['OCR for Pre-Digital Documents using LLMs', '2025', 'Miller and Banerjee', 't', ['olmocr'], 'https://vtechworks.lib.vt.edu/items/669cd15d-4c10-49c6-921a-927a5f22a559'],
+      ['socOCRbench', '2026', 'Dasanaike', 't', ['deepseek', 'paddle', 'mistral'], 'https://noahdasanaike.github.io/posts/sococrbench.html'],
+      ['Digitizing 20 million census documents', '2026', 'Dasanaike', 'c', ['paddle'], 'https://noahdasanaike.github.io/posts/digitizing-census.html'],
+      ['Historical print periodicals pipeline', '2026', 'Lorenz, BBF', 'c', ['mistral'], 'https://zenodo.org/records/21480551'],
+      ['Dictionnaire de Trévoux pipeline', '2026', 'LIRIS, Lyon', 'c', ['mistral'], 'https://internship-liris.readthedocs.io/en/latest/Documentation/Scripts/1_Introduction.html'],
+      ['Sloane’s Miscellanies catalogue', '2019', 'Humbel and Nyhan', 't', ['transkribus'], 'https://discovery.ucl.ac.uk/id/eprint/10072160/'],
+      ['Ottoman Turkish print archive', '2020', 'Kirmizialtin and Wrisley', 't', ['transkribus'], 'https://arxiv.org/abs/2011.01139'],
+      ['VOC, WIC and notarial deeds', '2020', 'Nationaal Archief', 'c', ['transkribus'], 'https://zenodo.org/records/4159268'],
+      ['A 13th-century French cartulary', '2024', 'Galli', 't', ['escriptorium'], 'https://revistas.ufrj.br/index.php/lh/article/view/63294'],
+      ['BiblIA: medieval Hebrew manuscripts', '2021', 'Stökl Ben Ezra et al.', 'c', ['escriptorium', 'kraken'], 'https://zenodo.org/records/5167263'],
+      ['Penn Libraries HTR', '2026', 'Penn Libraries', 'c', ['escriptorium'], 'https://www.library.upenn.edu/news/handwritten-text-recognition'],
+      ['Tikkoun Sofrim', '2019', 'Kuflik et al.', 'c', ['kraken'], 'https://dh-abstracts.library.virginia.edu/works/10087'],
+      ['Arabographic OCR (OpenITI)', '2017', 'Romanov et al.', 't', ['kraken'], 'https://arxiv.org/abs/1703.09550'],
+      ['Deutscher Reichsanzeiger, 1819–1945', '2019', 'UB Mannheim', 'c', ['tesseract'], 'https://www.bib.uni-mannheim.de/en/about/projects-of-the-university-library/optimized-use-of-ocr-processes/'],
+      ['Ontario newspapers on a shoestring', '2017', 'Rhyno', 'c', ['tesseract'], 'https://cf-www.ifla.org/wp-content/uploads/2019/05/assets/newspapers/2017_Iceland/2017-rhyno-en.pdf'],
+      ['OCR quality and newspaper clippings', 'c. 2021', 'Kettunen et al.', 't', ['tesseract'], 'https://arxiv.org/pdf/2206.00369'],
+      ['Newspaper OCR quality (KB Lab)', '2020', 'Wilms', 't', ['abbyy'], 'https://lab.kb.nl/node/77'],
+      ['Enhanced OCR for mass digitisation', '2018', 'National Library of Sweden', 't', ['abbyy', 'tesseract'], 'https://rj.se/en/grants/2018/evaluation-and-refinement-of-an-enhanced-ocr-process-for-mass-digitisation'],
+      ['Digitization Decisions', '2021', 'Olson and Berry', 't', ['abbyy', 'tesseract'], 'https://journal.code4lib.org/articles/16132'],
+      ['Fortunoff Holocaust testimonies', '2026', 'Mattingly and Bailey-Tomecek', 't', ['whisper'], 'https://aclanthology.org/2026.htres-2.10/'],
+      ['Emory audiovisual captioning', '2023', 'Emory Libraries', 'c', ['whisper'], 'https://scholarblogs.emory.edu/woodruff/news/catalyst-fund-grant-to-increase-accessibility-emory-audio-preservation-projects'],
+      ['Portuguese oral history (PROPOR)', '2026', 'da Silva et al.', 't', ['whisper'], 'https://preview.aclanthology.org/new-sigs/2026.propor-1.30/'],
+      ['NER for the Persian Gulf', '2022', 'Kapan et al.', 't', ['spacy'], 'https://ceur-ws.org/Vol-3232/paper27.pdf'],
+      ['Ensemble NER for place names', '2018', 'Won et al.', 't', ['spacy'], 'https://www.frontiersin.org/journals/digital-humanities/articles/10.3389/fdigh.2018.00002/full'],
+      ['Gazetteers of Scotland', '2020', 'Filgueira et al.', 'c', ['spacy'], 'https://aclanthology.org/2020.cmlc-1.4'],
+      ['Palabras de fidelidad', '2026', 'Alarcón Martínez', 'r', ['voyant'], 'https://sillares.uanl.mx/index.php/s/article/view/178'],
+      ['Banditry in Andalusia', '2023', 'Spinelli', 'r', ['voyant'], 'https://revistas.unlp.edu.ar/publicaahd/article/view/15163'],
+      ['Textile making in the Lienü zhuan', '2021', 'Lu Wang', 'r', ['voyant'], 'https://digitalorientalist.com/2021/03/30/the-changing-role-of-textile-making-text-analysis-of-digitized-lienu-zhuan-with-voyant-tools-part-i/'],
+      ['Martha Ballard’s Diary', '2010', 'Blevins', 'r', ['mallet'], 'https://cblevins.github.io/posts/topic-modeling-martha-ballards-diary/'],
+      ['Mining the Dispatch', 'c. 2011', 'Nelson', 'r', ['mallet'], 'https://journalofdigitalhumanities.org/2-1/review-mallet-by-ian-milligan-and-shawn-graham/'],
+      ['Themes of Humanism, German press', '2020', 'Hakkarainen and Iftikhar', 'r', ['mallet'], 'https://doi.org/10.33134/HUP-5-15'],
+      ['Republic of Letters catalogue', '2011', 'Weingart', 'r', ['gephi'], 'https://cofk.history.ox.ac.uk/2011/07/20/index.html'],
+      ['Sociability in scientific expeditions', '2021', 'Antunes', 'r', ['gephi'], 'https://revistas.unlp.edu.ar/publicaahd/article/download/13725/13083/52212'],
+      ['Finnish literary translation circles', '2026', 'Ivaska', 'r', ['gephi'], 'https://doi.org/10.1075/btl.172.10iva'],
+      ['Text mining the Old Bailey for court behaviour', '2016', 'Hitchcock and Turkel', 'r', ['oldbailey'], 'https://model-articles.rrchnm.org/articles/hitchcock-turkel/'],
+      ['The civilizing process in the Old Bailey', '2014', 'Klingenstein, Hitchcock and DeDeo', 'r', ['oldbailey'], 'https://sro.sussex.ac.uk/id/eprint/49191/'],
+      ['Old Bailey Corpus 2.0', '2016', 'Huber, Nissel and Puga', 'c', ['oldbailey'], 'https://fedora.clarin-d.uni-saarland.de/oldbailey/license.html'],
+      ['Cloud OCR on 180,000 Old Bailey pages', '2020', 'Ughetta and Kernighan', 't', ['oldbailey'], 'https://www.cs.princeton.edu/~bwk/obo.pdf'],
+      ['Viral Texts: reprinting in antebellum papers', '2015', 'Smith, Cordell and Mullen', 'r', ['chronam'], 'http://viraltexts.org/2015/05/22/computational-methods-for-uncovering-reprinted-texts-in-antebellum-newspapers/'],
+      ['America’s Public Bible', '2023', 'Mullen', 'r', ['chronam'], 'https://americaspublicbible.supdigital.org'],
+      ['American Stories', '2023', 'Dell et al.', 'c', ['chronam'], 'https://arxiv.org/abs/2308.12477'],
+      ['ChroniclingAmericaQA', '2024', 'Piryani et al.', 't', ['chronam'], 'https://arxiv.org/abs/2403.17859'],
+      ['A World of Fiction', '2018', 'Bode', 'r', ['trove'], 'https://press.umich.edu/Books/A/A-World-of-Fiction'],
+      ['Domestic workers of colour in Australia', '2020', 'Bressey', 'r', ['trove'], 'https://discovery-pp.ucl.ac.uk/10104225/1/CB%20Surfacing%20Bodies%20OAV.pdf'],
+      ['To be continued (fiction dataset)', '2019', 'Bode', 'c', ['trove'], 'https://researchdata.edu.au/continued/1371113'],
+      ['Finding Names in Trove', '2015', 'Kim and Cassidy', 'c', ['trove'], 'https://aclanthology.org/U15-1007.pdf'],
+      ['The slave trade to Spanish America', '2015', 'Borucki, Eltis and Wheat', 'r', ['slavevoyages'], 'https://learninglink.oup.com/access/content/history-in-practice-western-civ/backman3e-student-resources-volume-1-chapter-14-section-3-scholarly-sources-5'],
+      ['Ship crowding and slave mortality', '2014', 'Duquette', 'r', ['slavevoyages'], 'https://bedrosian.usc.edu/?p=2615'],
+      ['Enslaved.org', '2020', 'Enslaved.org', 'c', ['slavevoyages'], 'https://www.libraryjournal.com/story/enslaved-org-uses-linked-open-data-to-connect-enslavement-records'],
+      ['Coal and place in Early Canadiana Online', '2013', 'Clifford', 'r', ['canadiana'], 'https://jimclifford.ca/blog/coal-location-date-relationships-text-mined-from-early-canada-online-canadiana-ca.html'],
+      ['Historical commodities lexicon', '2014', 'Klein, Alex and Clifford', 'c', ['canadiana'], 'https://preview.aclanthology.org/fix_video/W14-0603.pdf'],
+      ['Rating OCR quality in Early Canadiana', '2014', 'Alex and Burns', 't', ['canadiana'], 'https://homepages.inf.ed.ac.uk/balex/publications/slides-DATeCH.pdf'],
+      ['Indian Affairs letterbooks with HTR', '2024', 'CRKN and LAC', 'c', ['canadiana', 'transkribus'], 'https://www.crkn-rcdr.ca/en/departmental-letterbooks-fully-transcribed-through-intelligent-character-recognition-icr-pilot'],
+      ['Feminist Bestsellers', '2021', 'Moravec and Chang', 'r', ['hathi'], 'https://post45.org/2021/04/feminist-bestsellers-a-digital-history-of-1970s-feminism/'],
+      ['The gender agency gap in fiction', '2024', 'Stuhler', 'r', ['hathi'], 'https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11260095/fullTextXML'],
+      ['NovelTM fiction datasets', '2020', 'Underwood et al.', 'c', ['hathi'], 'https://doaj.org/article/b4854671648c44e39d38afa9e6932dda'],
+      ['Cleaning Dirty Books', '2021', 'Kim et al.', 't', ['hathi'], 'https://arxiv.org/abs/2110.11934'],
+      ['Housing in Montréal, 1901–03', '2016', 'Sweeny', 'r', ['qgis'], 'https://www.frontiersin.org/journals/digital-humanities/articles/10.3389/fdigh.2016.00008/full'],
+      ['Montréal, l’avenir du passé', '2000–', 'Olson and Sweeny', 'c', ['qgis'], 'https://www.mun.ca/mapm/eng/intro.html'],
+      ['Historical Atlas of the Low Countries', '2023', 'Stapel', 'c', ['qgis'], 'https://b2find.eudat.eu/dataset/3e7b8fb3-564d-58b8-87f0-68cdeff281d2'],
+      ['A World War I journal mapped', '2018', 'Wake Forest Special Collections', 'r', ['storymap'], 'https://zsr.wfu.edu/2018/telling-a-tale-of-world-war-i-using-storymap/'],
+      ['Relaciones Geográficas maps', '2018', 'LLILAS Benson', 'c', ['storymap'], 'https://sites.utexas.edu/llilasbensonds/?p=704'],
+      ['March on Milwaukee curation', 'n.d.', 'Alinder', 'r', ['storymap'], 'https://uwm.edu/wp-content/uploads/sites/572/2022/11/jasmine-alinder.pdf'],
+      ['EMEW gazetteer', '2024', 'Gadd et al.', 'c', ['whg'], 'https://pretalx.com/spathum24/speaker/UXC9GP/'],
+      ['HGIS de las Indias in WHG', '2022', 'HGIS de las Indias', 'c', ['whg'], 'https://dh-abstracts.library.virginia.edu/works/11861'],
+      ['Dutch Global History datasets', '2022', 'Stapel', 'c', ['whg'], 'https://geo.di.huc.knaw.nl/?p=589'],
+      ['Belgian Historical Gazetteer', '2026', 'Hermenault', 'c', ['whg'], 'https://blog.whgazetteer.org/2026/04/17/new-published-datasets/'],
+      ['Burchard of Mount Sion', '2021', 'O’Doherty', 'r', ['recogito'], 'https://eprints.soton.ac.uk/450942'],
+      ['Digital Periegesis', '2017–', 'Foka, Barker et al.', 'c', ['recogito'], 'https://periegesis.abm.uu.se/en/about.php?aboutid=11'],
+      ['Pelagios 3 place annotation', '2015', 'Simon et al.', 'c', ['recogito'], 'https://eprints.lancs.ac.uk/id/eprint/83803/'],
+      ['Discovering Object Stories', '2025', 'Middle et al.', 't', ['recogito'], 'https://doi.org/10.5334/johd.273']
+    ].map((p, i) => ({ id: 'p' + i, t: p[0], y: p[1], who: p[2], k: p[3], tools: p[4], u: p[5] }));
+
+    const showEval = this.state.showEval;
+    const projs = P.filter((p) => showEval || p.k !== 't');
+    const W = 1000, H = 820, cx = 500, cy = 410;
+    const toolPos = {};
+    TOOLS.forEach((t, i) => {
+      const a = -Math.PI / 2 + (i / TOOLS.length) * Math.PI * 2;
+      toolPos[t.id] = { a, i, x: cx + Math.cos(a) * 285, y: cy + Math.sin(a) * 230 };
+    });
+    // place projects on an outer ring near the mean angle of their tools, then spread them out
+    const placed = projs.map((p) => {
+      let sx = 0, sy = 0;
+      p.tools.forEach((id) => { sx += Math.cos(toolPos[id].a); sy += Math.sin(toolPos[id].a); });
+      return { ...p, a: Math.atan2(sy, sx) };
+    }).sort((a, b) => a.a - b.a);
+    const gap = (Math.PI * 2) / Math.max(placed.length, 1) * 0.85;
+    for (let pass = 0; pass < 40; pass++) {
+      for (let i = 1; i < placed.length; i++) {
+        const d = placed[i].a - placed[i - 1].a;
+        if (d < gap) { const push = (gap - d) / 2; placed[i].a += push; placed[i - 1].a -= push; }
+      }
+    }
+    const projPos = {};
+    placed.forEach((p, i) => {
+      const r = i % 2 === 0 ? 1 : 0.9;
+      projPos[p.id] = { x: cx + Math.cos(p.a) * 470 * r, y: cy + Math.sin(p.a) * 390 * r };
+    });
+
+    const sel = this.state.sel;
+    const selId = sel ? sel.split(':')[1] : null;
+    const selIsTool = sel && sel.startsWith('tool:');
+    const linked = new Set();
+    if (sel) {
+      if (selIsTool) { linked.add('tool:' + selId); projs.filter((p) => p.tools.includes(selId)).forEach((p) => linked.add('proj:' + p.id)); }
+      else { const p = projs.find((q) => q.id === selId); if (p) { linked.add('proj:' + p.id); p.tools.forEach((id) => linked.add('tool:' + id)); } }
+    }
+    const seg = (a, b) => 'M' + a.x.toFixed(1) + ' ' + a.y.toFixed(1) + 'L' + b.x.toFixed(1) + ' ' + b.y.toFixed(1);
+    const edges = { r: '', c: '', t: '', hi: '' };
+    projs.forEach((p) => p.tools.forEach((id) => {
+      const s = seg(projPos[p.id], toolPos[id]);
+      const isHi = sel && ((selIsTool && id === selId) || (!selIsTool && p.id === selId));
+      if (isHi) edges.hi += s; else edges[p.k] += s;
+    }));
+
+    const counts = {};
+    TOOLS.forEach((t) => { counts[t.id] = P.filter((p) => p.tools.includes(t.id) && p.k !== 't').length; });
+    const kindInk = { r: '#D98F7E', c: '#9DB4D9', t: '#A89C88' };
+    const kindName = { r: 'Research', c: 'Corpus building', t: 'Evaluation' };
+    const nodes = [];
+    TOOLS.forEach((t) => {
+      const key = 'tool:' + t.id;
+      const on = !sel || linked.has(key);
+      const size = 12 + counts[t.id] * 3;
+      nodes.push({ key, title: t.name + (t.ds ? ' (dataset)' : ' (tool)'), label: t.name, showLabel: true, lx: (toolPos[t.id].x / W * 100).toFixed(2), ly: (toolPos[t.id].y / H * 100).toFixed(2),
+        dir: Math.sin(toolPos[t.id].a) < -0.2 ? 'column-reverse' : 'column',
+        size, radius: t.ds ? '2px' : '50%', rot: 'none', fill: t.ds ? '#7FB8A8' : '#D4A84B', border: 'none', op: on ? 1 : 0.3, sel: sel === key,
+        glow: sel === key ? '0 0 0 4px #121010, 0 0 0 6px #E8C877' : 'none', pick: () => this.setState({ sel: key }) });
+    });
+    projs.forEach((p) => {
+      const key = 'proj:' + p.id;
+      const on = !sel || linked.has(key);
+      const isEval = p.k === 't';
+      nodes.push({ key, title: p.t + ' (' + kindName[p.k] + ', ' + p.y + ')', label: p.t, showLabel: false, dir: 'column',
+        lx: (projPos[p.id].x / W * 100).toFixed(2), ly: (projPos[p.id].y / H * 100).toFixed(2),
+        size: isEval ? 9 : 12, radius: '1px', rot: 'rotate(45deg)', fill: isEval ? '#1C1916' : kindInk[p.k], border: isEval ? '1.5px solid #A89C88' : 'none',
+        op: on ? 1 : 0.25, sel: sel === key, glow: sel === key ? '0 0 0 3px #121010, 0 0 0 5px #E8C877' : 'none', pick: () => this.setState({ sel: key }) });
+    });
+
+    let selView = null;
+    if (sel && selIsTool) {
+      const t = TOOLS.find((x) => x.id === selId);
+      const mine = projs.filter((p) => p.tools.includes(selId));
+      selView = { kicker: t.ds ? 'Dataset' : 'Tool', ink: t.ds ? '#7FB8A8' : '#D4A84B', name: t.name, sub: counts[selId] + ' research and corpus uses · ' + P.filter((p) => p.tools.includes(selId) && p.k === 't').length + ' evaluations',
+        isTool: true, isProject: false, u: '#',
+        groups: ['r', 'c', 't'].map((k) => {
+          const items = mine.filter((p) => p.k === k).map((p) => ({ t: p.t, u: p.u, meta: '· ' + p.who + ', ' + p.y }));
+          return { label: kindName[k], ink: kindInk[k], n: items.length, items };
+        }).filter((g) => g.n > 0) };
+    } else if (sel) {
+      const p = P.find((x) => x.id === selId);
+      if (p) {
+        selView = { kicker: kindName[p.k] + ' · ' + p.y, ink: kindInk[p.k], name: p.t, sub: p.who, isTool: false, isProject: true, u: p.u,
+          groups: [{ label: 'Tools used', ink: '#D4A84B', n: p.tools.length, items: p.tools.map((id) => ({ t: TOOLS.find((x) => x.id === id).name, u: 'Main.dc.html', meta: '' })) }] };
+      }
+    }
+
+    const pairCount = {};
+    projs.forEach((p) => {
+      for (let i = 0; i < p.tools.length; i++) for (let j = i + 1; j < p.tools.length; j++) {
+        const k = [p.tools[i], p.tools[j]].sort().join('|');
+        pairCount[k] = (pairCount[k] || 0) + 1;
+      }
+    });
+    const nameOf = (id) => TOOLS.find((x) => x.id === id).name;
+    const pairs = Object.keys(pairCount).map((k) => ({ a: nameOf(k.split('|')[0]), b: nameOf(k.split('|')[1]), n: pairCount[k] }))
+      .sort((x, y) => y.n - x.n || x.a.localeCompare(y.a)).slice(0, 5);
+
+    const rc = P.filter((p) => p.k !== 't').length;
+    return {
+      nodes,
+      edges,
+      edgeOp: sel ? 0.25 : 0.8,
+      showEval,
+      toggleEval: () => this.setState({ showEval: !showEval }),
+      evalLabel: showEval ? 'Hide benchmarks and evaluations' : 'Show benchmarks and evaluations',
+      evalInk: showEval ? '#EDE4D3' : '#1A1510',
+      evalBg: showEval ? 'transparent' : '#D4A84B',
+      clearSel: () => this.setState({ sel: null }),
+      summary: projs.length + ' of ' + P.length + ' projects shown · ' + rc + ' research or corpus, ' + (P.length - rc) + ' evaluations',
+      hasSel: !!selView,
+      noSel: !selView,
+      sel: selView || { kicker: '', ink: '#D4A84B', name: '', sub: '', groups: [], isTool: false, isProject: false, u: '#' },
+      pairs,
+      pairsNote: pairs.length ? (showEval ? 'Pairs mostly come from benchmarks that test several tools at once.' : 'Without benchmarks, almost no project combines two seeded tools yet.') : 'No project combines two of the seeded tools once benchmarks are hidden. Most real pipelines will chain tools (OCR, then NER, then networks), and that will appear here as entries grow.'
+    };
+  }
+}
+</script>
+</body>
+</html>

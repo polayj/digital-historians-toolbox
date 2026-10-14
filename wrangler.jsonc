@@ -1,0 +1,26 @@
+// Cloudflare settings for the site. Wrangler (Cloudflare's command-line tool) reads this file.
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "digital-historians-toolbox",
+	"compatibility_date": "2026-10-14",
+	"compatibility_flags": ["nodejs_als"],
+	"pages_build_output_dir": ".svelte-kit/cloudflare",
+
+	// Settings the code can read. SHOW_UNREVIEWED = "true" shows records still marked
+	// needs_review, with a "Preview: not yet reviewed" banner. The live site will set it to "false".
+	"vars": {
+		"SHOW_UNREVIEWED": "true"
+	},
+
+	// The D1 database. "DB" is the name the code uses to reach it.
+	// database_id is a placeholder until the real database is created with
+	// `npx wrangler d1 create toolbox`; local development works without it.
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "toolbox",
+			"database_id": "00000000-0000-0000-0000-000000000000",
+			"migrations_dir": "migrations"
+		}
+	]
+}

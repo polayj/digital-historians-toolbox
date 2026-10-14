@@ -1,0 +1,29 @@
+{
+  "name": "digital-historians-toolbox",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "The Digital Historian's Toolbox: a curated catalogue of the tools and public datasets historians use, and the projects that used them.",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "wrangler types --check && vite build",
+    "preview": "wrangler pages dev .svelte-kit/cloudflare --port 4173",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "wrangler types --check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "gen": "wrangler types"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-cloudflare": "^8.0.0",
+    "@sveltejs/kit": "^3.0.1",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4",
+    "wrangler": "^4.151.0"
+  },
+  "imports": {
+    "#lib": "./src/lib/index.js",
+    "#lib/*": "./src/lib/*"
+  }
+}

@@ -1,0 +1,22 @@
+node_modules
+
+# Output
+.output
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env (secrets never go in the repository)
+.env
+.env.*
+.dev.vars
+!.env.example
+!.dev.vars.example
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
