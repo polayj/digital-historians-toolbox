@@ -30,3 +30,4 @@ Short record of what was decided, and why, so future editors don’t have to gue
 - **Version history starts at seeding:** every seeded entry and project gets one “seeded” history line.
 - **Sub-drawer blurbs** come word for word from the mockup and live in `seed/subdrawer_blurbs.json`.
 - **Guides** also start as `needs_review`; the plan is to file them together with their entry.
+- **The full seed is private.** `seed/` holds admin-only research notes and editor notes, so it lives in a separate private repository (`polayj/digital-historians-toolbox-seed`) cloned into `seed/`, and the public repository ignores that folder. It was removed from this repository's history before the first push. The public record of the catalogue is the nightly export of approved data in `data/`, which leaves out admin-only fields.
