@@ -45,3 +45,17 @@ Short record of what was decided, and why, so future editors don’t have to gue
 - **“I’m using this now”** explains that ORCID sign-in is coming (step 6) rather than pretending to record anything.
 - **Version history** has a simple public page (`/history/entry/<id>`) that lists what changed and which public fields; it never shows admin-only values or editors’ emails.
 - **Touch targets**: project links in card lists have 44px tap areas without changing the visible layout.
+
+## October 2026: search and network
+
+- **Search rules live in `src/lib/search.ts`** (tests in `search.test.ts`). Every word typed must appear (capitals and accents ignored). Each word scores for every place it appears: name most, then guide-card labels, then the description, then the rest of the card.
+- **Drawer names only count in search for drawers without guide cards.** Otherwise “handwriting” matched every card in “OCR & Handwriting”, including Tesseract.
+- **Filters:** options within a group widen the results (Free *or* Paid); groups narrow them (Free *and* No code). Projects match the tool filters if they used at least one matching tool or dataset. A “Project kind” filter was added (research / corpus building / evaluation), since that distinction is central to the site.
+- **Search sorting:** “Best match” when words are typed, otherwise Trending. For the other sorts, tools and datasets come first, then projects (newest first, or A–Z).
+- **Network layout** (`src/lib/network.ts`, tests in `network.test.ts`) uses d3-force, run to completion before drawing: no animation, and the same data always gives the same picture. Tools and datasets are grouped by drawer on an inner ring; projects sit on an outer ring near the tools they used. A 560-point test lays out in under a second.
+- **The graph is laid out in the browser, not on the server.** Cloudflare’s free plan allows each server request only a few milliseconds of computing time; the server sends the page with a “Drawing the graph…” placeholder instead.
+- **Tool and dataset sizes** grow with the square root of research + corpus uses (rejected projects excluded), so heavily used tools don’t swamp the picture.
+- **Zoom and pan:** drag to pan; zoom with the + / − buttons, Ctrl/⌘ + scroll, or a two-finger pinch. Plain scrolling and one-finger swipes scroll the page, so the graph never traps you.
+- **Accessibility:** tools and datasets can be reached with Tab and selected with Enter or Space (Escape clears). Projects are reachable through the “Find” menu and the “Show the connections as a list” section, which gives the whole graph as text.
+- **“Often used together”** follows the benchmark toggle. Its note is worked out from the data (e.g. whether most pairs come from benchmarks) rather than fixed text.
+- **Known dev-server quirk:** after some edits the local dev server (`npm run dev`) shows “Internal Error” until restarted. It’s a hot-reload glitch in the development tools only; the production build was checked separately in Cloudflare’s local runtime.
