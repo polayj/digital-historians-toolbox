@@ -1,0 +1,8 @@
+# Copy this file to .dev.vars for local development. .dev.vars is never committed.
+#
+# Cloudflare's published Turnstile TEST secret: it always passes, and only works with the test site key.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+#
+# Stands in for the Cloudflare Access sign-in when running `npm run dev` on your own computer.
+# Ignored everywhere else.
+DEV_ADMIN_EMAIL=editor@localhost.test

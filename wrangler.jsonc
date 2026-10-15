@@ -8,8 +8,18 @@
 
 	// Settings the code can read. SHOW_UNREVIEWED = "true" shows records still marked
 	// needs_review, with a "Preview: not yet reviewed" banner. The live site will set it to "false".
+	//
+	// TURNSTILE_SITE_KEY is public (it goes into the page). The value here is Cloudflare's published
+	// test key, which always passes; the real one is set when Turnstile is switched on (docs/SETUP.md).
+	// Its partner, TURNSTILE_SECRET_KEY, is a secret: never put it in this file.
+	//
+	// ACCESS_TEAM_DOMAIN and ACCESS_AUD identify the Cloudflare Access application that protects
+	// /admin. Left empty, /admin refuses everyone (except `npm run dev` on your own computer).
 	"vars": {
-		"SHOW_UNREVIEWED": "true"
+		"SHOW_UNREVIEWED": "true",
+		"TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+		"ACCESS_TEAM_DOMAIN": "",
+		"ACCESS_AUD": ""
 	},
 
 	// The D1 database. "DB" is the name the code uses to reach it.

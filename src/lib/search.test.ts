@@ -14,7 +14,8 @@ const base = {
 	facts: [],
 	notes: [],
 	status: 'approved' as const,
-	lastUpdated: '2026-10-14'
+	lastUpdated: '2026-10-14',
+	submittedBy: null
 };
 
 const entries: Entry[] = [

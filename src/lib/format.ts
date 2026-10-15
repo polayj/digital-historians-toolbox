@@ -52,6 +52,15 @@ export const KINDS: Record<ProjectKind, { label: string; short: string; heading:
 	}
 };
 
+/** What each project kind means (wording from the approved About page). */
+export const KIND_DEFINITIONS: Record<ProjectKind, string> = {
+	research:
+		'The tool or dataset helped answer a historical question: an article, a book, a project that makes an argument about the past.',
+	corpus_building:
+		'It produced something other historians can use: transcriptions, captions, a gazetteer, an enriched or re-OCRed dataset.',
+	evaluation: 'The tool itself was tested: benchmarks, accuracy studies, feasibility case studies.'
+};
+
 /** Public labels for project flags. Unknown flags are not shown. */
 export const FLAG_LABELS: Record<string, string> = {
 	editor_conflict_of_interest: 'editor’s own paper',

@@ -5,7 +5,16 @@ import type { PageServerLoad } from './$types';
 
 // Public version history. Shows what happened and which public fields changed, never
 // admin-only values or editors' email addresses.
-const ADMIN_ONLY_FIELDS = new Set(['research', 'editor_notes', 'review_note', 'submitter_email']);
+const ADMIN_ONLY_FIELDS = new Set(['research', 'editorNotes', 'editor_notes', 'reviewNote', 'review_note', 'submitterEmail', 'submitter_email', 'status']);
+
+// Plain-English names for the fields editors can change.
+const FIELD_LABELS: Record<string, string> = {
+	name: 'name', type: 'type', catalogueNumber: 'catalogue number', ai: 'AI badge', website: 'website',
+	releaseYear: 'release year', description: 'description', facts: 'facts', notes: 'historian’s notes',
+	drawers: 'drawers', subdrawers: 'guide cards', costBand: 'cost', skillLevel: 'skill level', runsLocally: 'runs locally',
+	title: 'title', shortTitle: 'short title', year: 'year', who: 'who', kind: 'kind', howUsed: 'how it was used',
+	url: 'link', flags: 'tags', verified: 'link check date', entries: 'linked cards'
+};
 
 const TABLES = { entry: 'entries', project: 'projects' } as const;
 
@@ -35,7 +44,9 @@ export const load: PageServerLoad = async ({ params }) => {
 		history: results.map((h) => {
 			let fields: string[] = [];
 			try {
-				fields = Object.keys(JSON.parse(h.changes)).filter((f) => !ADMIN_ONLY_FIELDS.has(f));
+				fields = Object.keys(JSON.parse(h.changes))
+					.filter((f) => !ADMIN_ONLY_FIELDS.has(f))
+					.map((f) => FIELD_LABELS[f] ?? f.replace(/_/g, ' '));
 			} catch {
 				fields = [];
 			}

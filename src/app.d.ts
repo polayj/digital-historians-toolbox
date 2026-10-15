@@ -5,7 +5,10 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			/** Email of the signed-in editor (set on /admin pages only). */
+			editor?: string;
+		}
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}

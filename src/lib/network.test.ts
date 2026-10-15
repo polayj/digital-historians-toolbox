@@ -6,7 +6,7 @@ const drawers: Drawer[] = [{ id: 'ocr', number: 'II', label: 'OCR', blurb: '', s
 const entry = (id: string): Entry => ({
 	id, type: 'tool', catalogueNumber: id, name: id, ai: false, website: null, releaseYear: 2020, description: '',
 	facts: [], notes: [], drawers: ['ocr'], subdrawers: [], costBand: null, skillLevel: null, runsLocally: null,
-	status: 'approved', lastUpdated: '2026-10-14'
+	status: 'approved', lastUpdated: '2026-10-14', submittedBy: null
 });
 const project = (id: string, kind: Project['kind'], used: string[], flags: string[] = []): Project => ({
 	id, title: id, shortTitle: null, year: '2020', yearSort: 2020, who: null, kind, howUsed: null, url: null, flags, entries: used, status: 'approved'

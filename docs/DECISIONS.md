@@ -59,3 +59,28 @@ Short record of what was decided, and why, so future editors don’t have to gue
 - **Accessibility:** tools and datasets can be reached with Tab and selected with Enter or Space (Escape clears). Projects are reachable through the “Find” menu and the “Show the connections as a list” section, which gives the whole graph as text.
 - **“Often used together”** follows the benchmark toggle. Its note is worked out from the data (e.g. whether most pairs come from benchmarks) rather than fixed text.
 - **Known dev-server quirk:** after some edits the local dev server (`npm run dev`) shows “Internal Error” until restarted. It’s a hot-reload glitch in the development tools only; the production build was checked separately in Cloudflare’s local runtime.
+
+## October 2026: submissions and the editor's desk
+
+- **One Submit form** for a tool, a dataset, a project or a correction. The fields change with the type. Ticking “This tool uses AI” reveals the three historian’s-notes questions; datasets get their own three (how the text was made, gaps and biases, what you may do with it). Links from a card (“Add a project that used it”, “Suggest a correction”) arrive with that card already chosen.
+- **Rules live in `src/lib/submissions.ts`** (tests in `submissions.test.ts`). Bare DOIs become doi.org links; addresses are otherwise kept exactly as typed, so saving a card never records a change nobody made. Projects can only link to real catalogue cards; anything else is named in words.
+- **Submitters:** the name is optional and credited on the card (“Suggested by …”); the email is required, so editors can ask questions, and is never shown publicly. It appears only in the editor’s desk.
+- **Turnstile** protects the form. Without a secret key configured, submissions are refused (fails closed). Local development uses Cloudflare’s published test keys.
+- **Access check in code:** every `/admin` request must carry a valid, signed Cloudflare Access pass for this application (`src/lib/server/access.ts`, tests in `access.test.ts`). Without Access configured, `/admin` refuses everyone. On `npm run dev` only, `DEV_ADMIN_EMAIL` stands in.
+- **The review queue** combines seeded records and public submissions, with Pending / Filed / Returned tabs and a filter by type. Automatic checks (`src/lib/checks.ts`, tests in `checks.test.ts`):
+  - possible duplicates, by name or link
+  - AI cards missing historian’s notes
+  - projects with no linked cards, or linked only to cards not yet filed
+  - research notes marked UNVERIFIED
+  - links that don’t resolve
+- **Link checks run on request**, 40 at a time (Cloudflare limits outgoing requests per visit). A site that blocks automatic checks (403, 429) shows as “couldn’t confirm”, not “broken”. The first local run flagged p004’s `preview.aclanthology.org` link (404) and the IFLA PDF for p015, “Ontario newspapers on a shoestring” (no response); left for the editors.
+- **File it** puts a record live and resets its “last updated” date (filing counts as a check). Filing a card also files its seeded guides. **Return with a note** requires a note. **Move back to Pending** clears the old note.
+- **Edit, then file / editing live cards:** one editor for cards (facts, notes and research notes as reorderable rows; drawers and guide cards; search-filter values) and one for projects (kind, linked cards, flags, editor notes). Every save that changes something writes a version-history record listing the changed fields; saving a live card updates its date. The public history page shows which fields changed, in plain words, never editor-only fields or emails.
+- **Corrections** open the card’s editor with the suggestion shown above it; “Save and mark the correction done” closes the submission.
+- **Admin-only material** (research notes, editor notes, submitter emails) is shown in the desk inside dashed “Editors only” boxes.
+- **Bugs found while testing and fixed:**
+  - a guide card ticked under two drawers was saved twice
+  - a failed save showed no message
+  - a trailing slash added to links made false history entries
+  - the Turnstile box’s id shadowed the Turnstile script
+- **Setup steps for Turnstile and Access** are in `docs/SETUP.md`.

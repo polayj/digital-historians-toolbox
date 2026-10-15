@@ -19,7 +19,8 @@ const entry = (id: string, releaseYear: number | null = 2020): Entry => ({
 	skillLevel: null,
 	runsLocally: null,
 	status: 'approved',
-	lastUpdated: '2026-10-14'
+	lastUpdated: '2026-10-14',
+	submittedBy: null
 });
 
 let n = 0;

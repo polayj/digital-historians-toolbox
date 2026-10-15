@@ -47,6 +47,8 @@ export interface Entry {
 	runsLocally: boolean | null;
 	status: Status;
 	lastUpdated: string; // YYYY-MM-DD
+	/** Public name of the person who suggested the card, if any (never their email). */
+	submittedBy: string | null;
 }
 
 export interface Project {

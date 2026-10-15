@@ -30,7 +30,7 @@ export async function loadCatalogue(): Promise<Catalogue> {
 			db
 				.prepare(
 					`SELECT id, type, catalogue_number, name, ai, website, release_year, description, facts, notes,
-					        cost_band, skill_level, runs_locally, status, last_updated
+					        cost_band, skill_level, runs_locally, status, last_updated, submitted_by
 					 FROM entries WHERE status IN ${inStatuses}`
 				)
 				.bind(...statuses),
@@ -81,7 +81,8 @@ export async function loadCatalogue(): Promise<Catalogue> {
 		skillLevel: r.skill_level,
 		runsLocally: r.runs_locally === null ? null : r.runs_locally === 1,
 		status: r.status,
-		lastUpdated: r.last_updated
+		lastUpdated: r.last_updated,
+		submittedBy: r.submitted_by ?? null
 	}));
 	const entryIds = new Set(entries.map((e) => e.id));
 

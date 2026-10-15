@@ -192,6 +192,7 @@
 				{formatDate(entry.lastUpdated)}
 			</span>
 			<span>
+				{#if entry.submittedBy}Suggested by {entry.submittedBy} ·{/if}
 				{reviewed ? 'Checked by the editors' : 'Not yet reviewed by the editors'} ·
 				<a href="/history/entry/{entry.id}">Version history</a>
 			</span>
