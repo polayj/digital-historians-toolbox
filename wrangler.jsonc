@@ -1,10 +1,20 @@
 // Cloudflare settings for the site. Wrangler (Cloudflare's command-line tool) reads this file.
+// The site runs as a Cloudflare Worker with static assets (Cloudflare has folded Pages into Workers).
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"name": "digital-historians-toolbox",
 	"compatibility_date": "2026-10-14",
 	"compatibility_flags": ["nodejs_als"],
-	"pages_build_output_dir": ".svelte-kit/cloudflare",
+
+	// The built site: the server code, and the folder of pages, scripts and images it serves.
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	// Publish on the free workers.dev address, and give each uploaded version its own preview address.
+	"workers_dev": true,
+	"preview_urls": true,
 
 	// Settings the code can read. SHOW_UNREVIEWED = "true" shows records still marked
 	// needs_review, with a "Preview: not yet reviewed" banner. The live site will set it to "false".

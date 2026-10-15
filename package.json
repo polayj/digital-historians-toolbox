@@ -7,17 +7,18 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "wrangler pages dev .svelte-kit/cloudflare --port 4173",
+    "preview": "wrangler dev .svelte-kit/cloudflare/_worker.js --port 4173",
     "prepare": "svelte-kit sync || echo ''",
-    "check": "wrangler types --strict-vars=false --check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "gen": "wrangler types --strict-vars=false",
+    "check": "node scripts/gen-types.mjs && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "gen": "node scripts/gen-types.mjs",
     "db:migrate:local": "wrangler d1 migrations apply toolbox --local",
     "db:migrate:remote": "wrangler d1 migrations apply toolbox --remote",
     "db:seed:local": "node scripts/seed.mjs --local",
     "db:seed:remote": "node scripts/seed.mjs --remote",
     "db:verify:local": "node scripts/verify-seed.mjs --local",
     "db:verify:remote": "node scripts/verify-seed.mjs --remote",
-    "test": "vitest run"
+    "test": "vitest run",
+    "deploy": "vite build && wrangler deploy"
   },
   "devDependencies": {
     "@sveltejs/adapter-cloudflare": "^8.0.0",

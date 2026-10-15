@@ -20,7 +20,7 @@ A curated, community-submitted catalogue of the tools and public datasets histor
 | `docs/SETUP.md` | Switching on Turnstile, Cloudflare Access and ORCID sign-in. |
 | `docs/RELEASES.md` | The nightly export, making releases, and archiving them on Zenodo. |
 | `CITATION.cff` | How to cite the catalogue (used by GitHub and Zenodo). |
-| `wrangler.jsonc` | Cloudflare settings (database connection, preview flag). |
+| `wrangler.jsonc` | Cloudflare settings: the Worker, database connection, preview flag and public keys. |
 | `PROMPT.md` | The original brief. |
 
 ## Running it on your own computer
@@ -55,6 +55,11 @@ Other commands:
 - `npm run check`: looks for mistakes in the code.
 - `npm run build`: builds the site the way Cloudflare will.
 - `npm run gen`: refreshes the Cloudflare type definitions after `wrangler.jsonc` changes.
+- `npm run preview`: runs the built site locally exactly as Cloudflare runs it.
+- `npm run deploy`: builds the site and publishes it to Cloudflare (needs `npx wrangler login` first).
+- `npm test`: runs the automated tests.
+
+**Live preview:** https://digital-historians-toolbox.polayjacob.workers.dev. To switch on submissions, editor sign-in and ORCID, see `docs/SETUP.md`.
 
 ## Licences
 

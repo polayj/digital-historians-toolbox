@@ -82,6 +82,13 @@
 		[timeframe].
 	</PageIntro>
 
+	{#if !data.open}
+		<p class="closed" role="note">
+			Submissions aren’t open yet: the editors are still switching on spam protection. You can look at the form, but it
+			can’t be sent until then.
+		</p>
+	{/if}
+
 	{#if sent}
 		<div class="thanks raised-3" role="status" tabindex="-1">
 			<h2>Thank you. It’s in the editors’ queue.</h2>
@@ -318,7 +325,7 @@
 				<div id="turnstile-widget" class="turnstile" bind:this={widget}></div>
 				{#if errors.turnstile}<p class="err">{errors.turnstile}</p>{/if}
 				<div class="send-row">
-					<button type="submit" class="btn btn-primary send-btn" disabled={sending}>{sending ? 'Sending…' : 'Send for review'}</button>
+					<button type="submit" class="btn btn-primary send-btn" disabled={sending || !data.open}>{sending ? 'Sending…' : 'Send for review'}</button>
 					<span class="help">An editor checks every submission before it appears.</span>
 				</div>
 			</div>
@@ -565,7 +572,15 @@
 	}
 	.send-btn:disabled {
 		opacity: 0.7;
-		cursor: progress;
+		cursor: not-allowed;
+	}
+	.closed {
+		border: 1px solid var(--warning);
+		border-radius: var(--radius-lg);
+		padding: 14px 18px;
+		color: var(--text-2);
+		background: var(--surface-2);
+		line-height: 1.55;
 	}
 	.thanks {
 		border: 1px solid var(--accent);

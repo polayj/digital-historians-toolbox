@@ -20,11 +20,15 @@ async function options() {
 }
 
 export const load: PageServerLoad = async () => {
-	return { ...(await options()), siteKey: env.TURNSTILE_SITE_KEY };
+	// Submissions need Turnstile switched on (a secret key); until then the page says so.
+	return { ...(await options()), siteKey: env.TURNSTILE_SITE_KEY, open: !!env.TURNSTILE_SECRET_KEY };
 };
 
 export const actions: Actions = {
 	default: async ({ request }) => {
+		if (!env.TURNSTILE_SECRET_KEY) {
+			return fail(503, { values: {}, errors: { turnstile: 'Submissions aren’t open yet on this site. Please try again later.' } });
+		}
 		const form = await request.formData();
 		const values = Object.fromEntries(
 			[...new Set(form.keys())]

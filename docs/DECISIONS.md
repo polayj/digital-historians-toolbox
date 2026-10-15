@@ -4,7 +4,7 @@ Short record of what was decided, and why, so future editors don’t have to gue
 
 ## October 2026: plan and skeleton
 
-- **Framework: SvelteKit 3** on Cloudflare Pages. Nearly every page is interactive (drawers, sorting, network graph, filters, admin queue), and SvelteKit handles pages, form handling and admin in one codebase. Alternatives considered: Astro (better for mostly static sites, but the interactive parts would need a second framework), Next.js (largest community, but heavier and less at home on Cloudflare), a static generator plus separate Workers, and no framework.
+- **Framework: SvelteKit 3** on Cloudflare (planned as Pages; deployed as a Worker, see below). Nearly every page is interactive (drawers, sorting, network graph, filters, admin queue), and SvelteKit handles pages, form handling and admin in one codebase. Alternatives considered: Astro (better for mostly static sites, but the interactive parts would need a second framework), Next.js (largest community, but heavier and less at home on Cloudflare), a static generator plus separate Workers, and no framework.
 - **Database: Cloudflare D1.** Cloudflare settings and the database are reached in code with `import { env } from 'cloudflare:workers'`.
 - **Seed data goes through the review queue.** All 25 entries and 75 projects load as `needs_review` and appear in the admin queue marked “From seed data”, with the same File it / Edit, then file / Return with a note buttons as public submissions. Re-running the seed adds only missing records; it never overwrites edits, approvals, `editor_notes`, flags or “UNVERIFIED” markers.
 - **Preview shows unreviewed records.** While `SHOW_UNREVIEWED` is `"true"` (in `wrangler.jsonc`), the site shows `needs_review` records under a “Preview: not yet reviewed” banner. The live site will set it to `"false"` and show approved records only.
@@ -108,3 +108,21 @@ Short record of what was decided, and why, so future editors don’t have to gue
   - placeholders for editors, affiliation and contact (`src/lib/site.ts`)
   - website and versioned-data citations
   - a short **“Your privacy”** section, which isn’t in the mockup, explaining what submissions and ORCID check-ins store
+
+## October 2026: accessibility pass and deployment
+
+- **Code licence: MIT** (`LICENSE`); data stays CC BY 4.0.
+- **Accessibility:** axe (WCAG 2.0–2.2 A/AA rules) found no violations on 15 pages, including open drawers and cards, the network selection, the forms and the editor’s desk. The not-found page was missing a title; error pages now use the site’s design (`src/routes/+error.svelte`). Manual checks:
+  - every page fits a 375px phone with no sideways scrolling
+  - tap targets are at least 44px
+  - keyboard order is logical, with visible focus rings
+- **Cloudflare Workers instead of Pages.** Cloudflare has folded Pages into Workers, and Wrangler no longer creates new Pages projects by default. The site deploys as a Worker with static assets (`main` + `assets` in `wrangler.jsonc`) at https://digital-historians-toolbox.polayjacob.workers.dev. Secrets are set with `npx wrangler secret put NAME`; deploy with `npm run deploy`.
+- **Type generation:** for a Worker, `wrangler types` adds a reference to the built site, which made the type checker inspect generated code. `scripts/gen-types.mjs` replaces that one line, and `npm run check` uses it.
+- **Database:** D1 database `toolbox` (id in `wrangler.jsonc`) is seeded from the **last committed** seed (via `SEED_DIR`), so research in progress isn’t included. All 20 checks passed remotely.
+- **Live checks:** every page returned correctly three times in a row, in 0.1–0.4 seconds, with no CPU-limit errors on the free plan.
+- **Fails safe until switched on:**
+  - Submit says submissions aren’t open (no Turnstile secret) and disables its button.
+  - `/admin` refuses everyone (no Access).
+  - ORCID sign-in says it isn’t switched on.
+- **The preview asks search engines not to index it** (`X-Robots-Tag: noindex`) while `SHOW_UNREVIEWED` is on.
+- **Access needs a custom domain** to protect only `/admin`: on `workers.dev`, Cloudflare’s Access switch covers the whole Worker. See `docs/SETUP.md`.

@@ -1,7 +1,7 @@
 // Downloads the approved catalogue from the live site into data/, checking it first.
 // Run nightly by .github/workflows/nightly-export.yml; can also be run by hand:
 //
-//   SITE_URL=https://digital-historians-toolbox.pages.dev node scripts/fetch-export.mjs
+//   SITE_URL=https://digital-historians-toolbox.polayjacob.workers.dev node scripts/fetch-export.mjs
 //
 // It refuses to write anything (and exits with an error) if the files look wrong: not valid,
 // containing editor-only fields or unapproved records, links that don't match, or a sudden
