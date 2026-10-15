@@ -1,0 +1,29 @@
+# How to cite The Digital Historian's Toolbox. GitHub shows a "Cite this repository" button from
+# this file, and Zenodo uses it to describe each archived release.
+#
+# BEFORE THE FIRST RELEASE: replace [EDITOR NAMES] with the editors (one "- family-names /
+# given-names" block per person; add "orcid:" if you like) and check the other fields.
+cff-version: 1.2.0
+message: >-
+  If you use this catalogue, please cite the archived version of the data you used
+  (each release has its own DOI on Zenodo).
+type: dataset
+title: "The Digital Historian’s Toolbox"
+abstract: >-
+  A curated, community-submitted catalogue of the software tools and public datasets
+  historians use, with every entry linked to the projects that used it. Research uses
+  are kept separate from corpus building and from evaluations (benchmarks), and AI tools
+  carry "historian’s notes" on where sources go, how the tool has been tested, and how
+  it fails on historical material.
+authors:
+  - name: "[EDITOR NAMES]"
+repository-code: "https://github.com/polayj/digital-historians-toolbox"
+license: CC-BY-4.0
+keywords:
+  - digital history
+  - digital humanities
+  - research tools
+  - datasets
+  - OCR
+  - HTR
+  - historical methods

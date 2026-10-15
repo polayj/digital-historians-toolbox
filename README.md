@@ -14,9 +14,12 @@ A curated, community-submitted catalogue of the tools and public datasets histor
 | `seed/` | **Not in this repository.** The researched seed data (October 2026) includes admin-only research notes, so it lives in a separate private repository that editors clone into `seed/` (see below). |
 | `migrations/` | The database structure, as numbered SQL files applied in order. |
 | `scripts/` | The seed loader (`seed.mjs`) and its checker (`verify-seed.mjs`). |
-| `data/` | Empty for now. The nightly export will write the **approved** catalogue here as JSON and CSV. |
+| `data/` | The **approved** catalogue as JSON and CSV, refreshed nightly from the site (see `data/README.md`). Licensed CC BY 4.0. |
 | `design-reference/` | The approved mockups. Reference only; they don’t run on their own. |
 | `docs/DECISIONS.md` | Decisions made so far and why. |
+| `docs/SETUP.md` | Switching on Turnstile, Cloudflare Access and ORCID sign-in. |
+| `docs/RELEASES.md` | The nightly export, making releases, and archiving them on Zenodo. |
+| `CITATION.cff` | How to cite the catalogue (used by GitHub and Zenodo). |
 | `wrangler.jsonc` | Cloudflare settings (database connection, preview flag). |
 | `PROMPT.md` | The original brief. |
 
@@ -55,4 +58,4 @@ Other commands:
 
 ## Licences
 
-To be added in step 7: code licence, and CC BY 4.0 for the catalogue’s own text. Linked third-party resources keep their own terms.
+The catalogue’s data and text are licensed CC BY 4.0 (see `data/LICENSE.md`); linked third-party resources keep their own terms. A licence for the code is still to be chosen.

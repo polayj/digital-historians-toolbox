@@ -18,9 +18,13 @@ const parseJson = <T>(text: string | null, fallback: T): T => {
 	}
 };
 
-export async function loadCatalogue(): Promise<Catalogue> {
+/**
+ * Loads the catalogue. The site shows what visibleStatuses() allows; the public data export
+ * passes approvedOnly, so it never includes records still waiting for review.
+ */
+export async function loadCatalogue({ approvedOnly = false } = {}): Promise<Catalogue> {
 	const db = env.DB;
-	const statuses = visibleStatuses();
+	const statuses: Status[] = approvedOnly ? ['approved'] : visibleStatuses();
 	const inStatuses = `(${placeholders(statuses.length)})`;
 
 	const [drawerRows, subRows, entryRows, entryDrawerRows, entrySubRows, projectRows, linkRows, guideRows, checkinRows] =

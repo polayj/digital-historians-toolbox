@@ -95,3 +95,16 @@ Short record of what was decided, and why, so future editors don’t have to gue
 - **Last updated** is reset when an editor files or edits a card; cards not updated for 12 months show “Due for review” (on the card, and in “All cards”).
 - **Version history:** public page `/history/<entry|project>/<id>` lists actions and the public fields that changed; editors’ page `/admin/history/…` shows old and new values (editor-only fields included) and who made each change.
 - **Footer** shows “Signed in with ORCID as …” with a Sign out button; the “Data on GitHub” link now points to the public repository.
+
+## October 2026: open data, releases and the About page
+
+- **Public export:** `/export/<file>` serves `entries.json`, `projects.json`, `links.csv`, `guides.json` and `taxonomy.json`, built from **approved records only** (whatever the preview setting), in the seed files’ shape minus editor-only fields (`research`, `editor_notes`). Entries add `filters` (cost, skill, runs locally) and, where given, `suggested_by`. Tests in `src/lib/exportFormat.test.ts`.
+- **Nightly GitHub Action** (`.github/workflows/nightly-export.yml`, 07:17 UTC) runs `scripts/fetch-export.mjs`. It checks the files before writing: valid, approved only, no editor-only fields, links consistent. It refuses a drop of more than 20% in cards unless run with `ALLOW_SHRINK=yes`, and commits only when something changed. It skips quietly until the `SITE_URL` repository variable is set. Tested locally: 25 cards, 75 projects, 89 links and 14 guides exported (identical to the committed seed), with no editor-only text, and the drop guard refused when 10 cards were unapproved.
+- **Licences:** CC BY 4.0 for the catalogue’s data and text (`data/LICENSE.md`); linked resources keep their own terms. **The code licence is still to be chosen.**
+- **`CITATION.cff`** (type: dataset) gives GitHub’s “Cite this repository” and Zenodo’s release metadata. The editors’ names are a placeholder to fill before the first release.
+- **Zenodo:** releases are tagged `YYYY.MM`. After the first release, putting its concept DOI in `src/lib/site.ts` (`ZENODO_CONCEPT_DOI`) makes the About page look up the latest version and its DOI from Zenodo’s public API (cached for a day; placeholders if Zenodo is unreachable). Step-by-step guide: `docs/RELEASES.md`.
+- **About page** ported from the mockup:
+  - live counts, labelled “In this preview” or “In the catalogue”
+  - placeholders for editors, affiliation and contact (`src/lib/site.ts`)
+  - website and versioned-data citations
+  - a short **“Your privacy”** section, which isn’t in the mockup, explaining what submissions and ORCID check-ins store

@@ -1,0 +1,42 @@
+# Copies the approved catalogue from the live site into data/ every night, so the data
+# lives in this public repository (and in every Zenodo release) as well as on the site.
+name: Nightly data export
+
+on:
+  schedule:
+    - cron: '17 7 * * *' # 07:17 UTC, about 1:17 a.m. in Saskatchewan
+  workflow_dispatch: # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write # allows this job (and only this job) to commit to the repository
+
+concurrency:
+  group: nightly-export
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch and check the approved data
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: node scripts/fetch-export.mjs
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No changes since last night."
+            exit 0
+          fi
+          git commit -m "Nightly data export $(date -u +%F)"
+          git push
