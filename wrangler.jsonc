@@ -27,13 +27,11 @@
 	},
 
 	// The D1 database. "DB" is the name the code uses to reach it.
-	// database_id is a placeholder until the real database is created with
-	// `npx wrangler d1 create toolbox`; local development works without it.
 	"d1_databases": [
 		{
 			"binding": "DB",
 			"database_name": "toolbox",
-			"database_id": "00000000-0000-0000-0000-000000000000",
+			"database_id": "6fe15ea4-17e9-49f1-aa79-e42c79b85218",
 			"migrations_dir": "migrations"
 		}
 	]
