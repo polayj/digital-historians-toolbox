@@ -19,6 +19,7 @@
 		sort,
 		windowYears,
 		today,
+		checkin,
 		ontoggle,
 		onsub,
 		oncard,
@@ -36,6 +37,8 @@
 		sort: SortKey;
 		windowYears: number;
 		today: string;
+		/** Who is signed in, which cards they use this year, and how many people use each card this year. */
+		checkin: { signedIn: boolean; mine: Set<string>; counts: Record<string, number> };
 		ontoggle: () => void;
 		onsub: (id: string) => void;
 		oncard: (id: string) => void;
@@ -124,6 +127,9 @@
 							guides={guidesByEntry.get(e.id) ?? []}
 							open={openCard === e.id}
 							{today}
+							signedIn={checkin.signedIn}
+							checkedIn={checkin.mine.has(e.id)}
+							usersThisYear={checkin.counts[e.id] ?? 0}
 							ontoggle={() => oncard(e.id)}
 						/>
 					</li>

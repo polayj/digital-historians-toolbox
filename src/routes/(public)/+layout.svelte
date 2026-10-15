@@ -13,7 +13,7 @@
 <main id="main" tabindex="-1">
 	{@render children()}
 </main>
-<Footer preview={data.showUnreviewed} />
+<Footer preview={data.showUnreviewed} user={data.user} />
 
 <style>
 	#main:focus {

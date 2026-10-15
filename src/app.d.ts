@@ -8,6 +8,8 @@ declare global {
 		interface Locals {
 			/** Email of the signed-in editor (set on /admin pages only). */
 			editor?: string;
+			/** Historian signed in with ORCID, if any (set on public pages). */
+			user?: import('#lib/server/session.js').SignedInUser | null;
 		}
 		// interface PageData {}
 		// interface PageState {}

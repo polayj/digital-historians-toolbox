@@ -14,6 +14,9 @@
 		guides,
 		open,
 		today,
+		signedIn = false,
+		checkedIn = false,
+		usersThisYear = 0,
 		ontoggle
 	}: {
 		entry: Entry;
@@ -21,12 +24,19 @@
 		guides: Guide[];
 		open: boolean;
 		today: string;
+		/** Signed in with ORCID. */
+		signedIn?: boolean;
+		/** This visitor already said “I’m using this now” this year. */
+		checkedIn?: boolean;
+		/** How many people checked in this year (a count only, never who). */
+		usersThisYear?: number;
 		ontoggle: () => void;
 	} = $props();
 
 	const isDataset = $derived(entry.type === 'dataset');
 	const due = $derived(isDueForReview(entry.lastUpdated, today));
 	const reviewed = $derived(entry.status === 'approved');
+	const year = $derived(today.slice(0, 4));
 
 	const groups = $derived(
 		(
@@ -39,7 +49,6 @@
 	);
 
 	let citeOpen = $state(false);
-	let checkinNote = $state(false);
 	let copied = $state(false);
 
 	const citation = $derived(
@@ -157,9 +166,14 @@
 					>Visit website <span aria-hidden="true">↗</span></a
 				>
 			{/if}
-			<button type="button" class="btn" aria-expanded={checkinNote} onclick={() => (checkinNote = !checkinNote)}
-				>I’m using this now</button
-			>
+			{#if checkedIn}
+				<span class="checked">✓ You’re using this ({year})</span>
+			{:else}
+				<form method="POST" action="/checkin" class="inline-form">
+					<input type="hidden" name="entry" value={entry.id} />
+					<button type="submit" class="btn">I’m using this now</button>
+				</form>
+			{/if}
 			<a class="btn" href="/submit?type=project&entry={entry.id}">Add a project that used it</a>
 			<a class="btn btn-link" href="/network?focus={entry.id}">See it on the network <span aria-hidden="true">→</span></a>
 			<button type="button" class="btn btn-link" aria-expanded={citeOpen} onclick={() => (citeOpen = !citeOpen)}
@@ -168,12 +182,13 @@
 			<a class="btn btn-link" href="/submit?type=correction&entry={entry.id}">Suggest a correction</a>
 		</div>
 
-		{#if checkinNote}
-			<p class="panel" role="status">
-				Thanks! Recording “I’m using this now” needs a quick sign-in with ORCID, which is being added next. Check-ins
-				count toward Trending.
-			</p>
-		{/if}
+		<p class="checkin-note">
+			{usersThisYear
+				? `${usersThisYear} ${usersThisYear === 1 ? 'historian says' : 'historians say'} they’re using it in ${year}.`
+				: `Nobody has said they’re using it in ${year} yet.`}
+			{signedIn ? '' : '“I’m using this now” asks you to sign in with ORCID.'}
+			One count per person per year; it adds to Trending, and names are never shown.
+		</p>
 
 		{#if citeOpen}
 			<div class="panel cite">
@@ -412,6 +427,23 @@
 		align-items: center;
 		border-top: 1px solid var(--border);
 		padding-top: 18px;
+	}
+	.inline-form {
+		display: contents;
+	}
+	.checked {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		padding: 0 6px;
+		color: var(--dataset);
+		font-size: 15px;
+	}
+	.checkin-note {
+		font-size: 13px;
+		line-height: 1.5;
+		color: var(--muted);
+		margin-top: -8px;
 	}
 	.panel {
 		background: var(--surface-2);

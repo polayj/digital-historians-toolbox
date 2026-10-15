@@ -6,3 +6,11 @@ TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 # Stands in for the Cloudflare Access sign-in when running `npm run dev` on your own computer.
 # Ignored everywhere else.
 DEV_ADMIN_EMAIL=editor@localhost.test
+#
+# "Sign in with ORCID" on your own computer: signs you in as ORCID's fictional test researcher,
+# Josiah Carberry, without contacting ORCID. Ignored everywhere else.
+DEV_ORCID_ID=0000-0002-1825-0097
+DEV_ORCID_NAME=Josiah Carberry
+#
+# Real ORCID sign-in needs a secret from ORCID's developer tools (see docs/SETUP.md). Leave unset locally.
+ORCID_CLIENT_SECRET=

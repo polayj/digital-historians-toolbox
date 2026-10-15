@@ -20,7 +20,7 @@
 		<p class="meta">
 			{e.type} · No. {e.catalogueNumber} · {STATUS[e.status]} · last updated {formatDate(e.lastUpdated)} ·
 			{e.source === 'seed' ? 'from seed data' : `suggested by ${e.submittedBy ?? 'an anonymous submitter'}`} ·
-			<a href="/history/entry/{e.id}">version history</a>
+			<a href="/admin/history/entry/{e.id}">version history</a>
 			{#if e.status === 'approved'} · <a href="/?card={e.id}">see it live</a>{/if}
 		</p>
 		{#if e.reviewNote}<p class="note">Returned with the note: {e.reviewNote}</p>{/if}

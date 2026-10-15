@@ -3,15 +3,20 @@ import type { Handle } from '@sveltejs/kit/hooks';
 import { dev } from '$app/env';
 import { env } from 'cloudflare:workers';
 import { verifyAccessToken } from '#lib/server/access.js';
+import { currentUser } from '#lib/server/session.js';
 
 /**
- * Every /admin request must carry a valid Cloudflare Access pass. Fails closed: if Access
- * isn't configured, nobody gets in. On your own computer (`npm run dev`) only, DEV_ADMIN_EMAIL
- * in .dev.vars stands in for the Access sign-in.
+ * Two kinds of sign-in:
+ * - Historians who sign in with ORCID (for "I'm using this now") are looked up from their cookie.
+ * - Every /admin request must carry a valid Cloudflare Access pass. Fails closed: if Access
+ *   isn't configured, nobody gets in. On your own computer (`npm run dev`) only, DEV_ADMIN_EMAIL
+ *   in .dev.vars stands in for the Access sign-in.
  */
 export const handle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname === '/admin' || event.url.pathname.startsWith('/admin/')) {
 		event.locals.editor = await identifyEditor(event.request);
+	} else {
+		event.locals.user = await currentUser(event.cookies);
 	}
 	return resolve(event);
 };

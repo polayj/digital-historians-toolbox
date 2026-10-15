@@ -1,6 +1,6 @@
 # Switching on the protections
 
-Two Cloudflare services protect the site. Both are free at this scale, and both need a few clicks in the Cloudflare dashboard that only you can make, because they're tied to your account. Do them once the site has been deployed for the first time (step 8), since they need its web address.
+Two Cloudflare services protect the site, and ORCID provides sign-in for “I’m using this now”. All three are free at this scale, and all three need a few clicks that only you can make, because they're tied to your accounts. Do them once the site has been deployed for the first time (step 8), since they need its web address.
 
 Until they're switched on, the site fails safe:
 
@@ -59,6 +59,32 @@ The site also checks Access’s signed pass on every `/admin` request. So if Acc
 
 ---
 
+## 3. Sign in with ORCID: for “I’m using this now”
+
+Historians sign in on orcid.org, so the site never sees their password. It asks ORCID only to confirm who they are; it can't read or change their ORCID record. Until this is set up, the button explains that sign-in isn't switched on yet and records nothing.
+
+1. Sign in to **orcid.org** with your own ORCID account.
+2. Open the menu under your name and choose **Developer tools**. Register for the free **Public API**. ORCID may ask you to verify your email first.
+   - **Name:** `The Digital Historian’s Toolbox`
+   - **Website:** your site’s address.
+   - **Description:** e.g. “Lets historians record which catalogued tools they are using. Only the ORCID iD and name are used.”
+   - **Redirect URI:** your site’s address followed by `/auth/orcid/callback`, e.g. `https://digital-historians-toolbox.pages.dev/auth/orcid/callback`. Add your own domain’s version too, if you get one. ORCID only sends people back to addresses listed here, so sign-in won’t work on preview copies unless you add those too.
+3. ORCID shows a **Client ID** (starts with `APP-`) and a **Client secret**.
+   - Send me the Client ID, or put it in `wrangler.jsonc` as `ORCID_CLIENT_ID`. It isn’t secret.
+   - The secret goes in the same way as Turnstile’s, never into chat or a file:
+
+     ```bash
+     npx wrangler pages secret put ORCID_CLIENT_SECRET --project-name digital-historians-toolbox
+     ```
+
+4. Test it: open a card on the live site, press **I’m using this now**, sign in on orcid.org, and check that you come back to the card with “You’re using this”.
+
+To try sign-in without touching real ORCID accounts, ORCID runs a separate test site, **sandbox.orcid.org**, with its own accounts and keys. Set `ORCID_BASE` in `wrangler.jsonc` to `https://sandbox.orcid.org` while testing, then back to `https://orcid.org`.
+
+**What's stored:** the person's ORCID iD and name, which cards they checked in to (once per calendar year), and a fingerprint of their sign-in cookie. Only counts are shown publicly, never who checked in.
+
+---
+
 ## On your own computer
 
-`npm run dev` skips Access and signs you in as the `DEV_ADMIN_EMAIL` in `.dev.vars`. That stand-in only exists in development mode; the real site never uses it. `.dev.vars` also holds Cloudflare’s published Turnstile **test** secret, which only works with the test site key. Copy `.dev.vars.example` to `.dev.vars` to get started.
+`npm run dev` skips Access and signs you in as the `DEV_ADMIN_EMAIL` in `.dev.vars`. Likewise, “Sign in with ORCID” signs you in as ORCID’s fictional test researcher, Josiah Carberry (`DEV_ORCID_ID`), without contacting ORCID. That stand-in only exists in development mode; the real site never uses it. `.dev.vars` also holds Cloudflare’s published Turnstile **test** secret, which only works with the test site key. Copy `.dev.vars.example` to `.dev.vars` to get started.

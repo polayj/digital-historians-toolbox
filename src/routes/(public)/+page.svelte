@@ -102,6 +102,20 @@
 	const datasets = $derived(cat.entries.filter((e) => e.type === 'dataset').length);
 	const preview = $derived(page.data.showUnreviewed);
 	const pad = (n: number) => String(n).padStart(2, '0');
+
+	// "I’m using this now": who is signed in, their check-ins this year, and this year’s totals per card.
+	const checkin = $derived({
+		signedIn: !!page.data.user,
+		mine: new Set<string>(data.myCheckins),
+		counts: Object.fromEntries(cat.entries.map((e) => [e.id, cat.checkins[e.id]?.[cat.currentYear] ?? 0]))
+	});
+	const SIGNIN_MESSAGES: Record<string, string> = {
+		unavailable: 'Signing in with ORCID isn’t switched on for this site yet, so your check-in wasn’t recorded.',
+		cancelled: 'Sign-in was cancelled, so nothing was recorded.',
+		expired: 'That sign-in took too long or came from an old page. Please try again.',
+		failed: 'ORCID couldn’t confirm the sign-in. Please try again.'
+	};
+	const signinMessage = $derived(SIGNIN_MESSAGES[page.url.searchParams.get('signin') ?? ''] ?? '');
 </script>
 
 <svelte:head>
@@ -111,6 +125,10 @@
 		content="A curated catalogue of the tools and public datasets historians use, linked to the projects that used them."
 	/>
 </svelte:head>
+
+{#if signinMessage}
+	<p class="container signin-message" role="status">{signinMessage}</p>
+{/if}
 
 <section class="container hero">
 	<div class="intro">
@@ -172,6 +190,7 @@
 					{sort}
 					{windowYears}
 					today={cat.today}
+					{checkin}
 					ontoggle={() => toggleDrawer(d.id)}
 					onsub={pickSub}
 					oncard={toggleCard}
@@ -190,6 +209,10 @@
 </section>
 
 <style>
+	.signin-message {
+		padding-top: 16px;
+		color: var(--warning);
+	}
 	.hero {
 		padding-top: 56px;
 		padding-bottom: 28px;

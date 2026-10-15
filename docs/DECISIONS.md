@@ -84,3 +84,14 @@ Short record of what was decided, and why, so future editors don’t have to gue
   - a trailing slash added to links made false history entries
   - the Turnstile box’s id shadowed the Turnstile script
 - **Setup steps for Turnstile and Access** are in `docs/SETUP.md`.
+
+## October 2026: check-ins, last updated, version history
+
+- **“I’m using this now” uses ORCID sign-in** (`src/lib/server/orcid.ts`, tests in `orcid.test.ts`). Only ORCID’s `/authenticate` permission is requested: the site learns the iD and name, nothing else. A one-time `state` value guards against forged sign-ins, and after sign-in visitors only ever return to a page on this site.
+- **Sessions** last 180 days. The cookie holds a random token; the database holds only its SHA-256 fingerprint, so a copy of the database can’t be used to sign in. Signing out deletes the session.
+- **Check-ins:** one per person per card per calendar year (enforced by the database). Not signed in? The button sends you to ORCID and records the check-in when you come back. Cards show how many people checked in this year, never who. Check-ins count toward Trending in the chosen window (already part of the ranking rules).
+- **Same-site check:** `/checkin` and `/auth/signout` refuse posts from other websites (`src/lib/server/origin.ts`). SvelteKit protects its own form actions but not plain endpoints. Session cookies are also `SameSite=Lax`.
+- **Without ORCID configured**, the button explains that sign-in isn’t switched on and records nothing. On `npm run dev`, `DEV_ORCID_ID` signs you in as ORCID’s fictional test researcher (Josiah Carberry, 0000-0002-1825-0097).
+- **Last updated** is reset when an editor files or edits a card; cards not updated for 12 months show “Due for review” (on the card, and in “All cards”).
+- **Version history:** public page `/history/<entry|project>/<id>` lists actions and the public fields that changed; editors’ page `/admin/history/…` shows old and new values (editor-only fields included) and who made each change.
+- **Footer** shows “Signed in with ORCID as …” with a Sign out button; the “Data on GitHub” link now points to the public repository.

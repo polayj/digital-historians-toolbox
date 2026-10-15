@@ -19,7 +19,11 @@
 		"SHOW_UNREVIEWED": "true",
 		"TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
 		"ACCESS_TEAM_DOMAIN": "",
-		"ACCESS_AUD": ""
+		"ACCESS_AUD": "",
+		// ORCID sign-in for "I'm using this now". ORCID_CLIENT_ID is public; its partner
+		// ORCID_CLIENT_SECRET is a secret (docs/SETUP.md). Use https://sandbox.orcid.org to test.
+		"ORCID_BASE": "https://orcid.org",
+		"ORCID_CLIENT_ID": ""
 	},
 
 	// The D1 database. "DB" is the name the code uses to reach it.

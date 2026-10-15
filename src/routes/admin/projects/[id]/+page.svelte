@@ -20,7 +20,7 @@
 		<p class="meta">
 			Project {p.id} · {STATUS[p.status]} · last updated {formatDate(p.lastUpdated)} ·
 			{p.source === 'seed' ? 'from seed data' : `suggested by ${p.submittedBy ?? 'an anonymous submitter'}`} ·
-			<a href="/history/project/{p.id}">version history</a>
+			<a href="/admin/history/project/{p.id}">version history</a>
 		</p>
 		{#if p.reviewNote}<p class="note">Returned with the note: {p.reviewNote}</p>{/if}
 	</div>
