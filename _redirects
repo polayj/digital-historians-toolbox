@@ -1,0 +1,2 @@
+# Older browsers ask for /favicon.ico; the site icon is an SVG.
+/favicon.ico /favicon.svg 301

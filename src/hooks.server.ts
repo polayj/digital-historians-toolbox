@@ -18,7 +18,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	} else {
 		event.locals.user = await currentUser(event.cookies);
 	}
-	return resolve(event);
+	const response = await resolve(event);
+	// While the site shows records still waiting for review, ask search engines not to index it.
+	if (env.SHOW_UNREVIEWED === 'true') response.headers.set('x-robots-tag', 'noindex');
+	return response;
 };
 
 async function identifyEditor(request: Request): Promise<string> {

@@ -485,8 +485,8 @@
 	}
 	.footer a {
 		display: inline-block;
-		padding: 12px 0;
-		margin: -12px 0;
+		padding: 13px 0;
+		margin: -13px 0;
 	}
 	.stamp {
 		font-family: var(--font-mono);

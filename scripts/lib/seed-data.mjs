@@ -2,7 +2,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const SEED_DIR = path.resolve(import.meta.dirname, '..', '..', 'seed');
+// SEED_DIR can point elsewhere, e.g. at a copy of the last committed seed while research is in progress.
+export const SEED_DIR = process.env.SEED_DIR ? path.resolve(process.env.SEED_DIR) : path.resolve(import.meta.dirname, '..', '..', 'seed');
 
 /** Identifies this batch of seed data. Changing it lets a new batch load once. */
 export const SEED_ID = '2026-10-14';

@@ -58,4 +58,6 @@ Other commands:
 
 ## Licences
 
-The catalogue’s data and text are licensed CC BY 4.0 (see `data/LICENSE.md`); linked third-party resources keep their own terms. A licence for the code is still to be chosen.
+- **Code:** MIT (see `LICENSE`).
+- **Data and text:** CC BY 4.0 (see `data/LICENSE.md`).
+- Linked third-party resources keep their own terms.

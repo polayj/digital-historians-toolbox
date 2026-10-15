@@ -37,7 +37,7 @@ These go into the permanent Zenodo record, which can be updated later but never 
       given-names: First
       orcid: "https://orcid.org/0000-0000-0000-0000"
   ```
-- The **data licence** is CC BY 4.0 (`data/LICENSE.md`). A licence for the code is still to be chosen.
+- Licences are in place: CC BY 4.0 for the data (`data/LICENSE.md`), MIT for the code (`LICENSE`).
 - Make sure the editors have filed the cards you want in the first release, and that the nightly export has run since.
 
 ---
