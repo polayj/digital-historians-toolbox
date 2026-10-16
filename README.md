@@ -59,7 +59,7 @@ Other commands:
 - `npm run deploy`: builds the site and publishes it to Cloudflare (needs `npx wrangler login` first).
 - `npm test`: runs the automated tests.
 
-**Live preview:** https://digital-historians-toolbox.polayjacob.workers.dev. To switch on submissions, editor sign-in and ORCID, see `docs/SETUP.md`.
+**Live preview:** https://toolbox.jacobpolay.ca. To switch on submissions, editor sign-in and ORCID, see `docs/SETUP.md`.
 
 ## Licences
 

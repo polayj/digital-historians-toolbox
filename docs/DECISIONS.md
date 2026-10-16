@@ -126,3 +126,4 @@ Short record of what was decided, and why, so future editors don’t have to gue
   - ORCID sign-in says it isn’t switched on.
 - **The preview asks search engines not to index it** (`X-Robots-Tag: noindex`) while `SHOW_UNREVIEWED` is on.
 - **Access needs a custom domain** to protect only `/admin`: on `workers.dev`, Cloudflare’s Access switch covers the whole Worker. See `docs/SETUP.md`.
+- **Address: https://toolbox.jacobpolay.ca** (October 2026). A subdomain of the editor’s personal domain for the prototype stage, leaving `jacobpolay.ca` free for a personal site. It’s set in `wrangler.jsonc` (`routes`, `custom_domain`), and Cloudflare manages its DNS record and certificate. The workers.dev address stays on as a backup. Nothing in the code depends on the address, so moving to a dedicated domain later is configuration plus a redirect rule (`docs/SETUP.md`, “Moving to a dedicated domain later”). With a domain on the account, Access can now protect just `/admin`.

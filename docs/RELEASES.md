@@ -17,7 +17,7 @@ The Action needs to know where the site is.
 1. On GitHub, open the repository **polayj/digital-historians-toolbox**.
 2. Go to **Settings → Secrets and variables → Actions → Variables** and click **New repository variable**.
    - **Name:** `SITE_URL`
-   - **Value:** the site’s address, e.g. `https://digital-historians-toolbox.polayjacob.workers.dev`
+   - **Value:** the site’s address, e.g. `https://toolbox.jacobpolay.ca`
 3. Run it once to check: **Actions → Nightly data export → Run workflow**. After a minute or so, `data/` should hold the approved files, committed by “github-actions[bot]”.
 
 **Safety checks:** the Action refuses to commit anything if the files look wrong: unreadable, containing editor-only fields or unreviewed records, or links that don’t match. It also refuses if the number of cards suddenly drops by more than a fifth, which would more likely be a fault than real deletions. If you really did remove many cards, run it by hand with `ALLOW_SHRINK=yes`. GitHub emails you when a run fails.

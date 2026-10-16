@@ -1,8 +1,10 @@
 # Switching on the protections
 
-The site runs as a **Cloudflare Worker**: Cloudflare’s current way of hosting sites, which has taken over from Pages. The preview lives at:
+The site runs as a **Cloudflare Worker**: Cloudflare’s current way of hosting sites, which has taken over from Pages. It lives at:
 
-**https://digital-historians-toolbox.polayjacob.workers.dev**
+**https://toolbox.jacobpolay.ca**
+
+(It also still answers at `digital-historians-toolbox.polayjacob.workers.dev`. For now the site sits on a subdomain of your personal domain, so `jacobpolay.ca` itself stays free for a personal site. Moving it to a dedicated domain later is covered at the end.)
 
 Two Cloudflare services protect it, and ORCID provides sign-in for “I’m using this now”. All three are free at this scale, and all three need a few clicks that only you can make, because they’re tied to your accounts.
 
@@ -28,7 +30,7 @@ Turnstile is Cloudflare’s replacement for CAPTCHAs. Most people never see a pu
 1. Open the Cloudflare dashboard and choose **Turnstile** from the menu.
 2. Click **Add widget** (it may say *Add site*).
    - **Name:** `Toolbox submit form`
-   - **Hostnames:** `digital-historians-toolbox.polayjacob.workers.dev`, plus your own domain if you add one later.
+   - **Hostnames:** `toolbox.jacobpolay.ca` (and `digital-historians-toolbox.polayjacob.workers.dev` if you want the form to work there too).
    - **Widget mode:** *Managed*.
 3. Cloudflare shows two keys:
    - The **site key** is public; it goes into the page. Send it to me, or put it in `wrangler.jsonc` as `TURNSTILE_SITE_KEY`, replacing the test key that’s there now, then redeploy.
@@ -48,16 +50,7 @@ Access asks anyone visiting `/admin` for their email address, sends a one-time c
 
 The site also checks Access’s signed pass on every `/admin` request. So if Access were ever switched off by mistake, `/admin` would lock everyone out rather than open up.
 
-### First, a domain
-
-Access protects a *path* such as `/admin` only on a web address in a domain you own and have added to Cloudflare, for example `toolbox.yourdomain.org`. On the free `workers.dev` address, Cloudflare offers a single switch that puts Access in front of the **whole** site, which would lock the public out too. So:
-
-- **Until you have a domain:** leave `/admin` locked (it is now) and keep reviewing on your own computer with `npm run dev`. Or ask me and I’ll walk you through the whole-site switch for a private review copy.
-- **For launch:** add a domain to Cloudflare, connect it to the Worker (**Workers & Pages → digital-historians-toolbox → Settings → Domains & Routes → Add → Custom domain**), then follow the steps below. A subdomain of a domain you already use on Cloudflare works too.
-
-I’ll double-check these dashboard options with you when we get there, as Cloudflare has been moving things around.
-
-### Then, the Access application
+### Setting it up
 
 1. Open **Zero Trust** from the Cloudflare dashboard (or go to one.dash.cloudflare.com).
    - The first time, it asks you to choose a **team name**, e.g. `toolbox`. Your sign-in page becomes `toolbox.cloudflareaccess.com`.
@@ -65,14 +58,14 @@ I’ll double-check these dashboard options with you when we get there, as Cloud
 2. Check that **One-time PIN** is switched on as a login method (under *Settings → Authentication*). It usually is by default.
 3. Go to **Access → Applications → Add an application → Self-hosted**.
    - **Application name:** `Toolbox editor’s desk`
-   - **Application domain:** your domain, with the path `admin`, e.g. `toolbox.yourdomain.org` / `admin`.
+   - **Application domain:** subdomain `toolbox`, domain `jacobpolay.ca`, path `admin`, so the application covers `toolbox.jacobpolay.ca/admin`.
 4. Add a **policy**:
    - **Policy name:** `Editors`
    - **Action:** *Allow*
    - **Include → Emails:** each editor’s email address.
 5. Save. On the application’s page, find the **Application Audience (AUD) Tag**, a long string of letters and numbers.
 6. Send me the AUD tag and your team name, or put them in `wrangler.jsonc` as `ACCESS_AUD` and `ACCESS_TEAM_DOMAIN` and redeploy. Neither is secret.
-7. Test it: visit `/admin` on your domain. You should get a Cloudflare page asking for your email, then a code, then the review queue with “Signed in as …” at the top.
+7. Test it: visit https://toolbox.jacobpolay.ca/admin. You should get a Cloudflare page asking for your email, then a code, then the review queue with “Signed in as …” at the top.
 
 **Adding or removing an editor** later is just a change to the policy’s email list in step 4. Nothing in the site’s code needs to change.
 
@@ -85,9 +78,9 @@ Historians sign in on orcid.org, so the site never sees their password. It asks 
 1. Sign in to **orcid.org** with your own ORCID account.
 2. Open the menu under your name and choose **Developer tools**. Register for the free **Public API**. ORCID may ask you to verify your email first.
    - **Name:** `The Digital Historian’s Toolbox`
-   - **Website:** your site’s address.
+   - **Website:** `https://toolbox.jacobpolay.ca`
    - **Description:** e.g. “Lets historians record which catalogued tools they are using. Only the ORCID iD and name are used.”
-   - **Redirect URI:** your site’s address followed by `/auth/orcid/callback`, e.g. `https://digital-historians-toolbox.polayjacob.workers.dev/auth/orcid/callback`. Add your own domain’s version too, if you get one. ORCID only sends people back to addresses listed here.
+   - **Redirect URI:** your site’s address followed by `/auth/orcid/callback`, `https://toolbox.jacobpolay.ca/auth/orcid/callback`. ORCID only sends people back to addresses listed here.
 3. ORCID shows a **Client ID** (starts with `APP-`) and a **Client secret**.
    - Send me the Client ID, or put it in `wrangler.jsonc` as `ORCID_CLIENT_ID` and redeploy. It isn’t secret.
    - The secret:
@@ -110,6 +103,16 @@ The preview shows records still waiting for review, under a “Preview: not yet 
 
 1. In `wrangler.jsonc`, set `SHOW_UNREVIEWED` to `"false"`.
 2. Deploy: `npm run deploy`. Only filed cards will then appear, and the banner and the no-indexing request go away.
+
+---
+
+## Moving to a dedicated domain later
+
+Nothing in the code mentions the address: every link and citation is built from whichever address the site is visited at. To move it, e.g. to a project `.org`:
+
+1. In `wrangler.jsonc`, add the new address under `routes` and deploy.
+2. Update the four outside settings: Turnstile’s hostnames, the Access application’s domain, ORCID’s redirect address, and GitHub’s `SITE_URL` variable.
+3. In Cloudflare, add a **redirect rule** on `jacobpolay.ca` that sends `toolbox.jacobpolay.ca/*` to the same path on the new address. Old links and footnotes keep working for as long as you keep `jacobpolay.ca`.
 
 ---
 
