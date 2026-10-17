@@ -99,6 +99,10 @@ check(
 	seed.projects.filter((p) => (p.flags ?? []).length).map((p) => p.id).sort()
 );
 
+// Guides: the same titles (including any updated by a later batch)
+const dbGuides = new Map(query('SELECT entry_id, url, title FROM guides', target).map((g) => [`${g.entry_id}|${g.url}`, g.title]));
+check('guides identical to seed', seed.guides.filter((g) => dbGuides.get(`${g.entry_id}|${g.url}`) !== g.title).length, 0);
+
 // Links: the exact same set of edges
 const dbLinks = query('SELECT project_id, entry_id FROM project_entries', target).map((r) => `${r.project_id}|${r.entry_id}`).sort();
 check('link set identical', isDeepStrictEqual(dbLinks, seed.links.map((l) => `${l.project_id}|${l.entry_id}`).sort()), true);

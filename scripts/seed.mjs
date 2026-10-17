@@ -146,6 +146,48 @@ for (const g of seed.guides) {
 	sql.push(insert('guides', { entry_id: g.entry_id, title: g.title, url: g.url, status: 'needs_review', source: 'seed' }));
 }
 
+// Changes to records that already existed before this batch. Inserts above never touch existing
+// rows, so these are applied explicitly, and only if the record still has its old value, so an
+// editor's own change is never overwritten. Each gets one line in the version history.
+const BATCH_CHANGES = {
+	'2026-10-16': {
+		guideTitles: [
+			{
+				entry_id: 'mallet',
+				url: 'https://programminghistorian.org/en/lessons/topic-modeling-and-mallet',
+				from: 'Getting Started with Topic Modeling and MALLET (Programming Historian, 2012)',
+				to: 'Getting Started with Topic Modeling and MALLET (Shawn Graham, Scott Weingart and Ian Milligan, Programming Historian, 2012)'
+			}
+		],
+		// New links on existing projects are inserted with the other links; this only records them in the history.
+		projectLinksAdded: [{ project_id: 'p045', entry_id: 'gemini', before: ['chandra', 'olmocr', 'tesseract'] }]
+	}
+};
+const batchNote = `Updated by seed batch ${SEED_ID}.`;
+const notYetNoted = (type, id) =>
+	`NOT EXISTS (SELECT 1 FROM edit_history WHERE entity_type = ${lit(type)} AND entity_id = ${lit(id)} AND note = ${lit(batchNote)})`;
+for (const g of BATCH_CHANGES[SEED_ID]?.guideTitles ?? []) {
+	sql.push(
+		`UPDATE guides SET title = ${lit(g.to)} WHERE entry_id = ${lit(g.entry_id)} AND url = ${lit(g.url)} AND title = ${lit(g.from)}` +
+			` AND NOT EXISTS (SELECT 1 FROM seed_log WHERE seed_id = ${lit(SEED_ID)});`
+	);
+	const guideId = `(SELECT CAST(id AS TEXT) FROM guides WHERE entry_id = ${lit(g.entry_id)} AND url = ${lit(g.url)})`;
+	sql.push(
+		`INSERT INTO edit_history (entity_type, entity_id, action, changes, editor, note)` +
+			` SELECT 'guide', ${guideId}, 'edited', ${lit(JSON.stringify({ title: { from: g.from, to: g.to } }))}, 'seed', ${lit(batchNote)}` +
+			` ${guard} AND EXISTS (SELECT 1 FROM guides WHERE entry_id = ${lit(g.entry_id)} AND url = ${lit(g.url)} AND title = ${lit(g.to)})` +
+			` AND NOT EXISTS (SELECT 1 FROM edit_history WHERE entity_type = 'guide' AND entity_id = ${guideId} AND note = ${lit(batchNote)});`
+	);
+}
+for (const l of BATCH_CHANGES[SEED_ID]?.projectLinksAdded ?? []) {
+	sql.push(
+		`INSERT INTO edit_history (entity_type, entity_id, action, changes, editor, note)` +
+			` SELECT 'project', ${lit(l.project_id)}, 'edited', ${lit(JSON.stringify({ entries: { from: l.before, to: [...l.before, l.entry_id] } }))}, 'seed', ${lit(batchNote)}` +
+			` ${guard} AND EXISTS (SELECT 1 FROM project_entries WHERE project_id = ${lit(l.project_id)} AND entry_id = ${lit(l.entry_id)})` +
+			` AND ${notYetNoted('project', l.project_id)};`
+	);
+}
+
 // Record the load last, so an interrupted run can be repeated.
 const counts = {
 	entries: seed.entries.length,

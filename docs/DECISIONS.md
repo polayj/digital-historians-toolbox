@@ -127,3 +127,11 @@ Short record of what was decided, and why, so future editors don’t have to gue
 - **The preview asks search engines not to index it** (`X-Robots-Tag: noindex`) while `SHOW_UNREVIEWED` is on.
 - **Access needs a custom domain** to protect only `/admin`: on `workers.dev`, Cloudflare’s Access switch covers the whole Worker. See `docs/SETUP.md`.
 - **Address: https://toolbox.jacobpolay.ca** (October 2026). A subdomain of the editor’s personal domain for the prototype stage, leaving `jacobpolay.ca` free for a personal site. It’s set in `wrangler.jsonc` (`routes`, `custom_domain`), and Cloudflare manages its DNS record and certificate. The workers.dev address stays on as a backup. Nothing in the code depends on the address, so moving to a dedicated domain later is configuration plus a redirect rule (`docs/SETUP.md`, “Moving to a dedicated domain later”). With a domain on the account, Access can now protect just `/admin`.
+
+## October 2026: second seed batch
+
+- **Batch `2026-10-16`** (three research passes, run in a separate session) adds 24 entries (18 tools, 6 datasets), 74 projects (p076–p149), 88 links and 42 guides, three drawers (IX Research Management, X Web Archives & Born-Digital Sources, XI Exhibits & Publishing) and three guide cards (Chat assistants, Crowdsourced transcription, Data cleaning). Everything is `needs_review`.
+- **Changes to existing records** are applied explicitly by the loader, only if the record still has its old value, each with one version-history line (“Updated by seed batch 2026-10-16”): p045 now links to Gemini, and the MALLET guide’s title names its authors.
+- **The Claude card** carries an editor-only flag asking for extra review, because it was researched by a Claude model.
+- **Loaded and verified** on the local and Cloudflare databases: 49 entries, 149 projects, 177 links, 56 guides; all 21 checks pass, and a re-run changes nothing.
+- **Known follow-up:** with more tools, some network-graph labels in the OCR area overlap.

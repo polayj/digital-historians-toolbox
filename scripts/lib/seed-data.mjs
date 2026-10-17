@@ -6,7 +6,10 @@ import path from 'node:path';
 export const SEED_DIR = process.env.SEED_DIR ? path.resolve(process.env.SEED_DIR) : path.resolve(import.meta.dirname, '..', '..', 'seed');
 
 /** Identifies this batch of seed data. Changing it lets a new batch load once. */
-export const SEED_ID = '2026-10-14';
+// Each batch of seed data loads once. Batches so far: 2026-10-14 (first 25 entries) and
+// 2026-10-16 (24 more entries from three research passes). Records already in the database are
+// never re-inserted, so a new batch only adds what's new.
+export const SEED_ID = '2026-10-16';
 
 const readJson = (name) => JSON.parse(fs.readFileSync(path.join(SEED_DIR, name), 'utf8'));
 
